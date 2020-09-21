@@ -12,10 +12,8 @@ int main()
 
     HDC g = txLoadImage("g.bmp");
     bool drawG = false;
-
-    HDC g1 = txLoadImage("голова 1.bmp");
-
-    HDC g2 = txLoadImage("шрек.bmp");
+    
+    HDC g = txLoadImage("g.bmp");
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -46,9 +44,7 @@ int main()
 
    if(drawG)
     {
-         Win32::TransparentBlt  (txDC(), 540, 100,134,181,g,0,0,126,184,TX_WHITE);
-         Win32::TransparentBlt  (txDC(), 600, 280,134,181,g1,0,0,640,792,TX_WHITE);
-         Win32::TransparentBlt  (txDC(), 589, 410,134,181,g2,0,0,900,900,TX_WHITE);
+         Win32::TransparentBlt  (txDC(), 540, 200,134,181,g,0,0,126,184,TX_WHITE);
     }
 
 
