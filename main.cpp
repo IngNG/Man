@@ -1,5 +1,15 @@
 #include "TXLib.h"
 
+//сохран€й картинки в папки!!!
+
+struct Head
+{
+    int x;
+    int y;
+    HDC picture;
+    int height;
+    int width;
+};
 int main()
 {
     txCreateWindow (700, 500);
@@ -9,12 +19,12 @@ int main()
     bool drawHr = false;
     bool drawG = false;
 
-    HDC g = txLoadImage("g.bmp");
-    HDC g1 = txLoadImage("голова 1.bmp");
-    HDC g2 = txLoadImage("шрек.bmp");
-    HDC g3 = txLoadImage("голова) 2.bmp");
-    HDC g4 = txLoadImage("петр 1.bmp");
-    HDC h = txLoadImage("h.bmp");
+    Head head[5];
+    head[0] = {550,   0,txLoadImage("g.bmp"),/* введЄшь сюда длинну и высоту */};
+    head[1] = {550, 100,txLoadImage("голова 1.bmp")};
+    head[2] = {550, 200,txLoadImage("шрек.bmp")};
+    head[3] = {550, 300,txLoadImage("голова) 2.bmp")};
+    head[4] = {550, 400,txLoadImage("петр 1.bmp")};
 
 
     HDC hr = txLoadImage("цветы какие-то.bmp");
@@ -48,8 +58,6 @@ int main()
     }
 
 
-
-
 //тут будет разна€ фигн€ ввиде ntkf одежды и обуви
     txRectangle(180,20,340,60);
     txDrawText (180,20,340,60, "тело");
@@ -71,14 +79,15 @@ int main()
           drawHr=true;
     }
 //golovy
+
    if(drawG)
     {
-         Win32::TransparentBlt  (txDC(), 550, 000,134,100,g,0,0,120,150,TX_WHITE);
-         Win32::TransparentBlt  (txDC(), 550, 100,134,100,g1,0,0,640,792,TX_WHITE);
-         Win32::TransparentBlt  (txDC(), 550, 200,134,100,g2,0,0,900,900,TX_WHITE);
-         Win32::TransparentBlt  (txDC(), 550, 300,134,100,g3,0,0,1280,720,TX_WHITE);
-         Win32::TransparentBlt  (txDC(), 550, 400,134,100,g4,0,0,215,283,TX_WHITE);
+        for (int i = 0; i < 5; i++)
+         Win32::TransparentBlt  (txDC(), head[i].x, head[i].y,134,100,head[i].picture,0,0,640,792,TX_WHITE);
     }
+
+
+
   if(drawH)
     {
          Win32::TransparentBlt  (txDC(), 540, 30,50,187,h,0,0,50,187,TX_WHITE);
@@ -89,10 +98,6 @@ int main()
          Win32::TransparentBlt  (txDC(), 550, 000,134,100,hr,0,0,1238,583,TX_WHITE);
     }
 
-
-
-
-
     txSleep(10);
     txEnd();
 
@@ -102,3 +107,5 @@ txDeleteDC(g);
 txDeleteDC(hr);
 return 0;
 }
+
+// € сдохну с этим проектом
