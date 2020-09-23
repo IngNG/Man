@@ -5,17 +5,19 @@ int main()
     txCreateWindow (700, 500);
 
 
-    HDC h = txLoadImage("h.bmp");
     bool drawH = false;
     bool drawHr = false;
-
-
-    HDC g = txLoadImage("g.bmp");
     bool drawG = false;
 
+    HDC g = txLoadImage("g.bmp");
     HDC g1 = txLoadImage("голова 1.bmp");
-
     HDC g2 = txLoadImage("шрек.bmp");
+    HDC g3 = txLoadImage("голова) 2.bmp");
+    HDC g4 = txLoadImage("петр 1.bmp");
+    HDC h = txLoadImage("h.bmp");
+
+
+    HDC hr = txLoadImage("цветы какие-то.bmp");
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -41,15 +43,11 @@ int main()
         txMouseY()>= 20 && txMouseY()<= 60 &&    txMouseButtons()==1)
     {
          drawG=true;
+         drawH=false;
+         drawHr=false;
     }
 
 
-   if(drawG)
-    {
-         Win32::TransparentBlt  (txDC(), 540, 100,134,181,g,0,0,126,184,TX_WHITE);
-         Win32::TransparentBlt  (txDC(), 600, 280,134,181,g1,0,0,640,792,TX_WHITE);
-         Win32::TransparentBlt  (txDC(), 589, 410,134,181,g2,0,0,900,900,TX_WHITE);
-    }
 
 
 //тут будет разная фигня ввиде ntkf одежды и обуви
@@ -59,15 +57,28 @@ int main()
     txMouseY()>= 20 && txMouseY()<= 60 &&    txMouseButtons()==1)
     {
           drawH=true;
+         drawG=false;
+         drawHr=false;
     }
 
 
-        if (txMouseX()>= 540 && txMouseX()<= 590 &&
-    txMouseY()>= 30 && txMouseY()<= 217 &&    txMouseButtons()==1)
+//украшения(аксесуары либо фон допустим)
+    txRectangle(350,20,520,60);
+    txDrawText (350,20,520,60, "украшения");
+    if (txMouseX()>= 350 && txMouseX()<= 520 &&
+        txMouseY()>= 20 && txMouseY()<= 60 &&    txMouseButtons()==1)
     {
           drawHr=true;
     }
-
+//golovy
+   if(drawG)
+    {
+         Win32::TransparentBlt  (txDC(), 550, 000,134,100,g,0,0,120,150,TX_WHITE);
+         Win32::TransparentBlt  (txDC(), 550, 100,134,100,g1,0,0,640,792,TX_WHITE);
+         Win32::TransparentBlt  (txDC(), 550, 200,134,100,g2,0,0,900,900,TX_WHITE);
+         Win32::TransparentBlt  (txDC(), 550, 300,134,100,g3,0,0,1280,720,TX_WHITE);
+         Win32::TransparentBlt  (txDC(), 550, 400,134,100,g4,0,0,215,283,TX_WHITE);
+    }
   if(drawH)
     {
          Win32::TransparentBlt  (txDC(), 540, 30,50,187,h,0,0,50,187,TX_WHITE);
@@ -75,20 +86,12 @@ int main()
 
   if(drawHr)
     {
-         Win32::TransparentBlt  (txDC(), 100, 80,100,374,h,0,0,50,187,TX_WHITE);
+         Win32::TransparentBlt  (txDC(), 550, 000,134,100,hr,0,0,1238,583,TX_WHITE);
     }
 
 
 
 
-//украшения(аксесуары либо фон допустим)
-    txRectangle(350,20,520,60);
-    txDrawText (350,20,520,60, "украшения");
-    if (txMouseX()>= 640 && txMouseX()<= 690 &&
-    txMouseY()>= 10 && txMouseY()<= 40 &&    txMouseButtons()==1)
-    {
-
-    }
 
     txSleep(10);
     txEnd();
@@ -96,5 +99,6 @@ int main()
     }
 txDeleteDC(h);
 txDeleteDC(g);
+txDeleteDC(hr);
 return 0;
 }
