@@ -1,7 +1,5 @@
 #include "TXLib.h"
 
-//сохраняй картинки в папки!!!
-
 struct Head
 {
     int x;
@@ -9,25 +7,28 @@ struct Head
     HDC picture;
     int height;
     int width;
+    string category;
 };
+
 int main()
 {
     txCreateWindow (700, 500);
 
 
-    bool drawH = false;
-    bool drawHr = false;
-    bool drawG = false;
 
-    Head head[5];
-    head[0] = {550,   0,txLoadImage("g.bmp"),/* введёшь сюда длинну и высоту */};
-    head[1] = {550, 100,txLoadImage("голова 1.bmp")};
-    head[2] = {550, 200,txLoadImage("шрек.bmp")};
-    head[3] = {550, 300,txLoadImage("голова) 2.bmp")};
-    head[4] = {550, 400,txLoadImage("петр 1.bmp")};
+    string vybrannaya_category = "";
+
+    Head head[10];
+    head[0] = {550,   0,txLoadImage("папка/g.bmp"),120,150, "Голова"};
+    head[1] = {550, 100,txLoadImage("папка/голова 1.bmp"),622,690, "Голова"};
+    head[2] = {550, 200,txLoadImage("папка/шрек.bmp"),900,900, "Голова"};
+    head[3] = {550, 300,txLoadImage("папка/голова) 2.bmp"),540,712, "Голова"};
+    head[4] = {550, 400,txLoadImage("папка/петр 1.bmp"),215,283, "Голова"};
+    head[5] = {550,  50,txLoadImage("папка/цветы какие-то.bmp"),1238,583, "Цветы"};
+    head[6] = {540, 150,txLoadImage("папка/цветы2.bmp"),1529,664, "Цветы"};
+    head[7] = {530, 250,txLoadImage("папка/цветы3.bmp"),1835,914, "Цветы"};
 
 
-    HDC hr = txLoadImage("цветы какие-то.bmp");
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -52,9 +53,7 @@ int main()
     if (txMouseX()>= 10 && txMouseX()<= 170 &&
         txMouseY()>= 20 && txMouseY()<= 60 &&    txMouseButtons()==1)
     {
-         drawG=true;
-         drawH=false;
-         drawHr=false;
+         vybrannaya_category="Голова";
     }
 
 
@@ -64,9 +63,7 @@ int main()
     if (txMouseX()>= 180 && txMouseX()<= 340 &&
     txMouseY()>= 20 && txMouseY()<= 60 &&    txMouseButtons()==1)
     {
-          drawH=true;
-         drawG=false;
-         drawHr=false;
+
     }
 
 
@@ -76,36 +73,21 @@ int main()
     if (txMouseX()>= 350 && txMouseX()<= 520 &&
         txMouseY()>= 20 && txMouseY()<= 60 &&    txMouseButtons()==1)
     {
-          drawHr=true;
-    }
-//golovy
-
-   if(drawG)
-    {
-        for (int i = 0; i < 5; i++)
-         Win32::TransparentBlt  (txDC(), head[i].x, head[i].y,134,100,head[i].picture,0,0,400,400,TX_WHITE);
+          vybrannaya_category="Цветы";
     }
 
 
+    for (int i = 0; i < 8; i++)
+        if(head[i].category == vybrannaya_category)
+        {
+             Win32::TransparentBlt  (txDC(), head[i].x, head[i].y, head[i].height/11, head[i].width/11, head[i].picture, 0, 0, head[i].height, head[i].width, TX_WHITE);
+        }
 
-  if(drawH)
-    {
-//         Win32::TransparentBlt  (txDC(), 540, 30,50,187,h,0,0,50,187,TX_WHITE);
-    }
-
-  if(drawHr)
-    {
-         Win32::TransparentBlt  (txDC(), 550, 000,134,100,hr,0,0,1238,583,TX_WHITE);
-    }
 
     txSleep(10);
     txEnd();
-
-    }
-//txDeleteDC(h);
+}
 txDeleteDC(head[0].picture);
-txDeleteDC(hr);
+
 return 0;
 }
-
-// я сдохну с этим проектом
