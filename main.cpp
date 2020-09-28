@@ -19,14 +19,14 @@ int main()
     string vybrannaya_category = "";
 
     Head head[10];
-    head[0] = {550,   0,txLoadImage("папка/g.bmp"),120,150, "Голова"};
-    head[1] = {550, 100,txLoadImage("папка/голова 1.bmp"),622,690, "Голова"};
-    head[2] = {550, 200,txLoadImage("папка/шрек.bmp"),900,900, "Голова"};
-    head[3] = {550, 300,txLoadImage("папка/голова) 2.bmp"),540,712, "Голова"};
-    head[4] = {550, 400,txLoadImage("папка/петр 1.bmp"),215,283, "Голова"};
-    head[5] = {550,  50,txLoadImage("папка/цветы какие-то.bmp"),1238,583, "Цветы"};
-    head[6] = {540, 150,txLoadImage("папка/цветы2.bmp"),1529,664, "Цветы"};
-    head[7] = {530, 250,txLoadImage("папка/цветы3.bmp"),1835,914, "Цветы"};
+    head[0] = {550,   0,txLoadImage("pictures/g.bmp"),120,150, "Голова"};
+    head[1] = {550, 100,txLoadImage("pictures/голова 1.bmp"),622,690, "Голова"};
+    head[2] = {550, 200,txLoadImage("pictures/шрек.bmp"),900,900, "Голова"};
+    head[3] = {550, 300,txLoadImage("pictures/голова) 2.bmp"),540,712, "Голова"};
+    head[4] = {550, 400,txLoadImage("pictures/петр 1.bmp"),215,283, "Голова"};
+    head[5] = {550,  50,txLoadImage("pictures/цветы какие-то.bmp"),1238,583, "Цветы"};
+    head[6] = {540, 150,txLoadImage("pictures/цветы2.bmp"),1529,664, "Цветы"};
+    head[7] = {530, 250,txLoadImage("pictures/цветы3.bmp"),1835,914, "Цветы"};
 
 
 
@@ -57,7 +57,7 @@ int main()
     }
 
 
-//тут будет разная фигня ввиде ntkf одежды и обуви
+//тут будет разная фигня ввиде тела одежды и обуви
     txRectangle(180,20,340,60);
     txDrawText (180,20,340,60, "тело");
     if (txMouseX()>= 180 && txMouseX()<= 340 &&
