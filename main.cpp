@@ -1,93 +1,125 @@
 #include "TXLib.h"
 
-struct Head
+struct Button
 {
     int x;
     int y;
-    HDC picture;
-    int height;
-    int width;
-    string category;
+    const char* text;
+
+    void drawButton()
+    {
+        txSetColor(TX_BLACK, 4);
+        txSetFillColor(TX_YELLOW);
+        txSelectFont("Comic Sans MS", 40);
+        txRectangle(x, y, x + 200, y + 100);
+        txDrawText (x, y, x + 200, y + 100, text);
+    }
 };
+
+void drawButton(Button btn)
+{
+    txSetColor(TX_BLACK, 4);
+    txSetFillColor(TX_YELLOW);
+    txSelectFont("Comic Sans MS", 40);
+    txRectangle(btn.x, btn.y, btn.x + 200, btn.y + 100);
+    txDrawText (btn.x, btn.y, btn.x + 200, btn.y + 100, btn.text);
+}
+
+
+
+struct Picture
+{
+    int x;
+    int y;
+    HDC image;
+};
+
+
+void drawPicture(Picture pct)
+{
+    Win32::TransparentBlt(txDC(), pct.x, pct.y, 100, 100, pct.image, 0, 0, 100, 100, TX_WHITE);
+}
+void drawPicture2(Picture pct)
+{
+    Win32::TransparentBlt(txDC(), pct.x, pct.y, 100, 100, pct.image, 0, 0, 400, 300, TX_WHITE);
+}
+
 
 int main()
 {
-    txCreateWindow (700, 500);
+    txCreateWindow(1200,800);
+
+
+    Picture leftPictures[10];
+    leftPictures[0] = {100, 100, txLoadImage("Pictures/Нос/Нос1.bmp")};
+    leftPictures[1] = {100, 250, txLoadImage("Pictures/Нос/Нос2.bmp")};
+    leftPictures[2] = {100, 400, txLoadImage("Pictures/Нос/Нос3.bmp")};
+    leftPictures[3] = {100, 100, txLoadImage("Pictures/Волосы/Волосы1.bmp")};
+    leftPictures[4] = {100, 250, txLoadImage("Pictures/Волосы/Волосы2.bmp")};
+    leftPictures[5] = {100, 400, txLoadImage("Pictures/Волосы/Волосы3.bmp")};
 
 
 
-    string vybrannaya_category = "";
+    Button btn1 = {100, 0, "Овал лица"};
+    Button btn2 = {300, 0, "Носы"};
+    Button btn3 = {500, 0, "Прически"};
+    Button btn4 = {700, 0, "Глаза"};
 
-    Head head[10];
-    head[0] = {550,   0,txLoadImage("pictures/g.bmp"),120,150, "Голова"};
-    head[1] = {550, 100,txLoadImage("pictures/голова 1.bmp"),622,690, "Голова"};
-    head[2] = {550, 200,txLoadImage("pictures/шрек.bmp"),900,900, "Голова"};
-    head[3] = {550, 300,txLoadImage("pictures/голова) 2.bmp"),540,712, "Голова"};
-    head[4] = {550, 400,txLoadImage("pictures/петр 1.bmp"),215,283, "Голова"};
-    head[5] = {550,  50,txLoadImage("pictures/цветы какие-то.bmp"),1238,583, "Цветы"};
-    head[6] = {540, 150,txLoadImage("pictures/цветы2.bmp"),1529,664, "Цветы"};
-    head[7] = {530, 250,txLoadImage("pictures/цветы3.bmp"),1835,914, "Цветы"};
+    bool nosVisible = false;
+    bool volosyVisible = false;
 
-
-
-    while(!GetAsyncKeyState(VK_ESCAPE))
+    while (!GetAsyncKeyState(VK_ESCAPE))
     {
-    txBegin();
-    txClear();
+        txBegin();
+        txSetFillColor(TX_YELLOW);
+        txClear();
 
 
-    txSetColor(TX_WHITE);
-    txSetFillColor(TX_BLACK);
-//меню создание персонажа
+        drawButton(btn1);
+        drawButton(btn2);
+        drawButton(btn3);
+        drawButton(btn4);
 
-
-//панель где выбираеться елемент
-    txRectangle(530,20,690,490);
-
-
-
-
-//вставка головы (надо бы на волосы заменить)
-    txRectangle(10,20,170,60);
-    txDrawText (10,20,170,60, "голова");
-    if (txMouseX()>= 10 && txMouseX()<= 170 &&
-        txMouseY()>= 20 && txMouseY()<= 60 &&    txMouseButtons()==1)
-    {
-         vybrannaya_category="Голова";
-    }
-
-
-//тут будет разная фигня ввиде тела одежды и обуви
-    txRectangle(180,20,340,60);
-    txDrawText (180,20,340,60, "тело");
-    if (txMouseX()>= 180 && txMouseX()<= 340 &&
-    txMouseY()>= 20 && txMouseY()<= 60 &&    txMouseButtons()==1)
-    {
-
-    }
-
-
-//украшения(аксесуары либо фон допустим)
-    txRectangle(350,20,520,60);
-    txDrawText (350,20,520,60, "украшения");
-    if (txMouseX()>= 350 && txMouseX()<= 520 &&
-        txMouseY()>= 20 && txMouseY()<= 60 &&    txMouseButtons()==1)
-    {
-          vybrannaya_category="Цветы";
-    }
-
-
-    for (int i = 0; i < 8; i++)
-        if(head[i].category == vybrannaya_category)
+        //Носы
+        if (txMouseButtons() == 1 &&
+            txMouseX() >= btn2.x &&
+            txMouseX() <= btn2.x + 200 &&
+            txMouseY() >= btn2.y &&
+            txMouseY() <= btn2.y + 100)
         {
-             Win32::TransparentBlt  (txDC(), head[i].x, head[i].y, head[i].height/11, head[i].width/11, head[i].picture, 0, 0, head[i].height, head[i].width, TX_WHITE);
+            nosVisible = true;
+            volosyVisible = false;
+        }
+
+        if (nosVisible)
+        {
+            drawPicture(leftPictures[0]);
+            drawPicture(leftPictures[1]);
+            drawPicture(leftPictures[2]);
+        }
+        if (volosyVisible)
+        {
+            drawPicture2(leftPictures[3]);
+            drawPicture2(leftPictures[4]);
+            drawPicture2(leftPictures[5]);
         }
 
 
-    txSleep(10);
-    txEnd();
-}
-txDeleteDC(head[0].picture);
+        //Волосы
+        if (txMouseButtons() == 1 &&
+            txMouseX() >= btn3.x &&
+            txMouseX() <= btn3.x + 200 &&
+            txMouseY() >= btn3.y &&
+            txMouseY() <= btn3.y + 100)
+        {
+            nosVisible = false;
+            volosyVisible = true;
+        }
 
-return 0;
+        txSleep(10);
+        txEnd();
+    }
+
+
+    return 0;
 }
