@@ -5,8 +5,8 @@ struct Head
     int x;
     int y;
     HDC picture;
-    int height;
     int width;
+    int height;
     string category;
     bool visible;
 };
@@ -34,47 +34,59 @@ bool clickButton(int x, int y)
 
 int main()
 {
-    txCreateWindow (700, 500);
+    txCreateWindow (900, 600);
 
 
 
     string vybrannaya_category = "";
+    const int N_HEAD=12;
+    Head head[N_HEAD];
+    head[0] =  {760,  30,txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
+    head[1] =  {760, 100,txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
+    head[2] =  {760, 170,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
+    head[3] =  {760,  30,txLoadImage("pictures/курточка/f.bmp"),195,246, "Куртка"};
+    head[4] =  {760, 100,txLoadImage("pictures/курточка/g.bmp"),195,246, "Куртка"};
+    head[5] =  {760, 200,txLoadImage("pictures/курточка/w.bmp"),195,246, "Куртка"};
+    head[6] =  {760,  30,txLoadImage("pictures/штаны/штаны.bmp"),107,292, "Низ"};
+    head[7] =  {760,  30,txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
+    head[8] =  {760, 250,txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
+    head[9] =  {760,  30,txLoadImage("pictures/n/n.bmp"),120,598, "Тело"};
+    head[10] = {760,  30,txLoadImage("pictures/n/тело.bmp"),120,598, "Тело"};
+    head[11] = {760,  30,txLoadImage("pictures/n/тело1.bmp"),120,598, "Тело"};
 
-    Head head[15];
-    head[0] = {550,   0,txLoadImage("pictures/причёски/волосы/каре1.bmp"),119,121, "Голова"};
-    head[1] = {550, 100,txLoadImage("pictures/голова 1.bmp"),622,690, "Голова"};
-    head[2] = {550, 200,txLoadImage("pictures/шрек.bmp"),900,900, "Голова"};
-    head[3] = {550, 300,txLoadImage("pictures/голова) 2.bmp"),540,712, "Голова"};
-    head[4] = {550, 400,txLoadImage("pictures/петр 1.bmp"),215,283, "Голова"};
-    head[5] = {550,  50,txLoadImage("pictures/цветы какие-то.bmp"),1238,583, "Цветы"};
-    head[6] = {540, 150,txLoadImage("pictures/цветы2.bmp"),1529,664, "Цветы"};
-    head[7] = {530, 250,txLoadImage("pictures/цветы3.bmp"),1835,914, "Цветы"};
-    head[8] = {550,   0,txLoadImage("pictures/n/n.bmp"),670,1080, "Тело"};
-    head[9] = {550,   0,txLoadImage("pictures/n/тело.bmp"),670,1080, "Тело"};
-    head[10] = {550,   0,txLoadImage("pictures/n/тело2.bmp"),670,1080, "Тело"};
-    head[11] = {550,   0,txLoadImage("pictures/n/тело4.bmp"),670,1080, "Тело"};
+    Head head1[N_HEAD];
+    head1[0] = {111, 100};
+    head1[1] = {111, 100};
+    head1[2] = {111, 100};
+    head1[3] = {111, 100};
+    head1[4] = {111, 100};
+    head1[5] = {111, 100};
+    head1[6] = {111, 100};
+    head1[7] = {111, 100};
+    head1[8] = {111, 100};
+    head1[9] = {111, 100};
+    head1[10] = {111,100};
+    head1[11] = {111,100};
+    int n_active = -1;
 
-    Head head1[15];
-    head1[0] = {100, 100,txLoadImage("pictures/причёски/волосы/каре1.bmp"),119,121, "Голова"};
-    head1[1] = {100, 100,txLoadImage("pictures/голова 1.bmp"),622,690, "Голова"};
-    head1[2] = {100, 100,txLoadImage("pictures/шрек.bmp"),900,900, "Голова"};
-    head1[3] = {100, 100,txLoadImage("pictures/голова) 2.bmp"),540,712, "Голова"};
-    head1[4] = {100, 100,txLoadImage("pictures/петр 1.bmp"),215,283, "Голова"};
-    head1[5] = {100, 100,txLoadImage("pictures/цветы какие-то.bmp"),1238,583, "Цветы"};
-    head1[6] = {100, 100,txLoadImage("pictures/цветы2.bmp"),1529,664, "Цветы"};
-    head1[7] = {100, 100,txLoadImage("pictures/цветы3.bmp"),1835,914, "Цветы"};
-    head1[8] = {100, 100,txLoadImage("pictures/n/n.bmp"),670,1080, "Тело"};
-    head1[9] = {100, 100,txLoadImage("pictures/n/тело.bmp"),670,1080, "Тело"};
-    head1[10] = {100,100,txLoadImage("pictures/n/тело2.bmp"),670,1080, "Тело"};
-    head1[11] = {100,100,txLoadImage("pictures/n/тело4.bmp"),670,1080, "Тело"};
+    for (int i = 0; i < N_HEAD; i++)
+    {
+        head1[i].category=head[i].category;
+        head1[i].height=head[i].height;
+        head1[i].picture=head[i].picture;
+        head1[i].width=head[i].width;
+    }
 
-
-
-    Button button[3];
-    button[0] = { 10, 20,"голова", "Голова"};
-    button[1] = {180, 20,"тело", "Тело"};
-    button[2] = {350, 20,"украшения", "Цветы"};
-
+    const int N_BUTTON=8;
+    Button button[N_BUTTON];
+    button[0] = { 10, 20,"Голова", "Голова"};
+    button[1] = {180, 20,"Тело", "Тело"};
+    button[2] = {350, 20,"Лицо", ""};
+    button[3] = {530, 20,"Особенности кожи", ""};
+    button[4] = { 10, 80,"Верх", "Верх"};
+    button[5] = {180, 80,"Низ", "Низ"};
+    button[6] = {350, 80,"Куртка", "Куртка"};
+    button[7] = {530, 80,"Украшения", "Украшения"};
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -88,34 +100,50 @@ int main()
 
 
     //панель где выбираеться елемент
-        txRectangle(530,20,690,490);
+        txRectangle(730,20,890,590);
 
-        for (int i=0;i<3;i= i+1)
+        for (int i=0;i<N_BUTTON;i= i+1)
             drawButton(button[i]);
 
 
     //вставка головы (надо бы на волосы заменить)
-        for (int i=0;i<3;i= i+1)
+        for (int i=0;i<N_BUTTON;i= i+1)
         if (clickButton(button[i].x, button[i].y))
         {
              vybrannaya_category=button[i].category;
         }
 
-
-
-
-
-
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < N_HEAD; i++)
         if(head[i].category == vybrannaya_category)
         {
-             Win32::TransparentBlt  (txDC(), head[i].x, head[i].y, head[i].height/11, head[i].width/11, head[i].picture, 0, 0, head[i].height, head[i].width, TX_WHITE);
+             Win32::TransparentBlt  (txDC(), head[i].x, head[i].y, 100, 100, head[i].picture, 0, 0, head[i].width,head[i].height,  TX_WHITE);
         }
 
+//движение картинки
+    for(int i=0; i < N_HEAD; i++)
+    {
+        if(
+            txMouseX()>= head1[i].x && txMouseX()<= head1[i].x + head1[i].width &&
+            txMouseY()>= head1[i].y && txMouseY()<= head1[i].y + head1[i].height  &&    txMouseButtons()==1 && n_active < 0
+          )
+
+          {
+             n_active = i;
+          }
+    }
+
+    if(n_active >=0 )
+    {
+        head1[n_active].x = txMouseX() - 10;
+        head1[n_active].y = txMouseY() - 10;
+    }
+
+    if(txMouseButtons()==0)
+        n_active = -100;
 
 
-
-    for (int i = 0; i < 12; i++)
+    //Клик на вариант
+    for (int i = 0; i < N_HEAD; i++)
         if(head[i].category == vybrannaya_category &&
            txMouseX()>= head[i].x && txMouseX()<= head[i].x + head[i].height &&
            txMouseY()>= head[i].y && txMouseY()<= head[i].y + head[i].width  &&    txMouseButtons()==1)
@@ -124,12 +152,9 @@ int main()
         }
 
 
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < N_HEAD; i++)
         if (head1[i].visible)
-             Win32::TransparentBlt  (txDC(), head1[i].x, head1[i].y, head1[i].height/11, head1[i].width/11, head1[i].picture, 0, 0, head1[i].height, head1[i].width, TX_WHITE);
-
-
-
+             Win32::TransparentBlt  (txDC(), head1[i].x, head1[i].y, head1[i].width, head1[i].height, head1[i].picture, 0, 0, head1[i].width, head1[i].height, TX_WHITE);
 
 
 
