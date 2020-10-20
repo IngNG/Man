@@ -41,15 +41,15 @@ int main()
     string vybrannaya_category = "";
     const int N_HEAD=12;
     Head head[N_HEAD];
-    head[0] =  {760,  30,txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
-    head[1] =  {760, 100,txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
-    head[2] =  {760, 170,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
-    head[3] =  {760,  30,txLoadImage("pictures/курточка/f.bmp"),195,246, "Куртка"};
-    head[4] =  {760, 100,txLoadImage("pictures/курточка/g.bmp"),195,246, "Куртка"};
-    head[5] =  {760, 200,txLoadImage("pictures/курточка/w.bmp"),195,246, "Куртка"};
+    head[0] =  {760, 100,txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
+    head[1] =  {760, 200,txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
+    head[2] =  {760, 300,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
+    head[3] =  {760, 100,txLoadImage("pictures/курточка/f.bmp"),195,246, "Куртка"};
+    head[4] =  {760, 200,txLoadImage("pictures/курточка/g.bmp"),195,246, "Куртка"};
+    head[5] =  {760, 300,txLoadImage("pictures/курточка/w.bmp"),195,246, "Куртка"};
     head[6] =  {760,  30,txLoadImage("pictures/штаны/штаны.bmp"),107,292, "Низ"};
-    head[7] =  {760,  30,txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
-    head[8] =  {760, 250,txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
+    head[7] =  {760, 250,txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
+    head[8] =  {760,  30,txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
     head[9] =  {760,  30,txLoadImage("pictures/n/n.bmp"),120,598, "Тело"};
     head[10] = {760,  30,txLoadImage("pictures/n/тело.bmp"),120,598, "Тело"};
     head[11] = {760,  30,txLoadImage("pictures/n/тело1.bmp"),120,598, "Тело"};
@@ -122,10 +122,13 @@ int main()
 //движение картинки
     for(int i=0; i < N_HEAD; i++)
     {
-        if(
+        if( //картинка видна
             txMouseX()>= head1[i].x && txMouseX()<= head1[i].x + head1[i].width &&
-            txMouseY()>= head1[i].y && txMouseY()<= head1[i].y + head1[i].height  &&    txMouseButtons()==1 && n_active < 0
+            txMouseY()>= head1[i].y && txMouseY()<= head1[i].y + head1[i].height  &&
+            txMouseButtons()==1 && n_active < 0 &&
+            head1[i].visible
           )
+
 
           {
              n_active = i;
