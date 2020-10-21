@@ -34,39 +34,30 @@ bool clickButton(int x, int y)
 
 int main()
 {
-    txCreateWindow (900, 600);
+    txCreateWindow (900, 780);
 
 
 
     string vybrannaya_category = "";
     const int N_HEAD=12;
-    Head head[N_HEAD];
-    head[0] =  {760, 100,txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
-    head[1] =  {760, 200,txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
-    head[2] =  {760, 300,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
-    head[3] =  {760, 100,txLoadImage("pictures/курточка/f.bmp"),195,246, "Куртка"};
-    head[4] =  {760, 200,txLoadImage("pictures/курточка/g.bmp"),195,246, "Куртка"};
-    head[5] =  {760, 300,txLoadImage("pictures/курточка/w.bmp"),195,246, "Куртка"};
-    head[6] =  {760,  30,txLoadImage("pictures/штаны/штаны.bmp"),107,292, "Низ"};
-    head[7] =  {760, 250,txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
-    head[8] =  {760,  30,txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
-    head[9] =  {760,  30,txLoadImage("pictures/n/n.bmp"),120,598, "Тело"};
-    head[10] = {760,  30,txLoadImage("pictures/n/тело.bmp"),120,598, "Тело"};
-    head[11] = {760,  30,txLoadImage("pictures/n/тело1.bmp"),120,598, "Тело"};
+    Head head[N_HEAD], head1[N_HEAD];
+    head[0] = {760,  100,txLoadImage("pictures/n/n.bmp"),120,598, "Тело"};
+    head[1] = {760,  200,txLoadImage("pictures/n/тело.bmp"),120,598, "Тело"};
+    head[2] = {760,  300,txLoadImage("pictures/n/тело1.bmp"),120,598, "Тело"};
 
-    Head head1[N_HEAD];
-    head1[0] = {111, 100};
-    head1[1] = {111, 100};
-    head1[2] = {111, 100};
-    head1[3] = {111, 100};
-    head1[4] = {111, 100};
-    head1[5] = {111, 100};
-    head1[6] = {111, 100};
-    head1[7] = {111, 100};
-    head1[8] = {111, 100};
-    head1[9] = {111, 100};
-    head1[10] = {111,100};
-    head1[11] = {111,100};
+    head[3] =  {760, 100,txLoadImage("pictures/курточка/f.bmp"),195,246, "Верх"};
+    head[4] =  {760, 200,txLoadImage("pictures/курточка/g.bmp"),195,246, "Верх"};
+    head[5] =  {760, 300,txLoadImage("pictures/курточка/w.bmp"),195,246, "Верх"};
+    head[6] =  {760, 400,txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
+
+    head[7] =  {760, 100,txLoadImage("pictures/штаны/штаны.bmp"),107,292, "Низ"};
+    head[8] =  {760, 200,txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
+
+
+    head[9] =  {760, 100,txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
+    head[10] =  {760, 200,txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
+    head[11] =  {760, 300,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
+
     int n_active = -1;
 
     for (int i = 0; i < N_HEAD; i++)
@@ -75,14 +66,40 @@ int main()
         head1[i].height=head[i].height;
         head1[i].picture=head[i].picture;
         head1[i].width=head[i].width;
+        head1[i].visible = false;
+
+        if (head1[i].category == "Тело")
+        {
+            head1[i].x = 111;
+            head1[i].y = 120;
+        }
+
+           if (head1[i].category == "Верх")
+        {
+            head1[i].x = 85;
+            head1[i].y = 290;
+        }
+
+            if (head1[i].category == "Низ")
+        {
+            head1[i].x = 111;
+            head1[i].y = 200;
+        }
+
+            if (head1[i].category == "Голова")
+        {
+            head1[i].x = 111;
+            head1[i].y = 125;
+        }
+
     }
 
     const int N_BUTTON=8;
     Button button[N_BUTTON];
-    button[0] = { 10, 20,"Голова", "Голова"};
+    button[0] = { 10, 20,"Волосы", "Голова"};
     button[1] = {180, 20,"Тело", "Тело"};
     button[2] = {350, 20,"Лицо", ""};
-    button[3] = {530, 20,"Особенности кожи", ""};
+    button[3] = {530, 20," ", ""};
     button[4] = { 10, 80,"Верх", "Верх"};
     button[5] = {180, 80,"Низ", "Низ"};
     button[6] = {350, 80,"Куртка", "Куртка"};
@@ -100,7 +117,7 @@ int main()
 
 
     //панель где выбираеться елемент
-        txRectangle(730,20,890,590);
+        txRectangle(730,20,890,770);
 
         for (int i=0;i<N_BUTTON;i= i+1)
             drawButton(button[i]);
@@ -135,7 +152,7 @@ int main()
           }
     }
 
-    if(n_active >=0 )
+    if(n_active >= 0)
     {
         head1[n_active].x = txMouseX() - 10;
         head1[n_active].y = txMouseY() - 10;
@@ -151,6 +168,8 @@ int main()
            txMouseX()>= head[i].x && txMouseX()<= head[i].x + head[i].height &&
            txMouseY()>= head[i].y && txMouseY()<= head[i].y + head[i].width  &&    txMouseButtons()==1)
         {
+            //Все хед1 с такой же категорией скрыть
+
             head1[i].visible = true;
         }
 
