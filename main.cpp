@@ -1,6 +1,6 @@
 #include "TXLib.h"
 
-struct Head
+struct variants
 {
     int x;
     int y;
@@ -36,62 +36,61 @@ int main()
 {
     txCreateWindow (900, 780);
 
-
-
     string vybrannaya_category = "";
-    const int N_HEAD=12;
-    Head head[N_HEAD], head1[N_HEAD];
-    head[0] = {760,  100,txLoadImage("pictures/n/n.bmp"),120,598, "Тело"};
-    head[1] = {760,  200,txLoadImage("pictures/n/тело.bmp"),120,598, "Тело"};
-    head[2] = {760,  300,txLoadImage("pictures/n/тело1.bmp"),120,598, "Тело"};
+    const int N_variants = 15;
+    variants variants[N_variants], center[N_variants];
+    variants[0] = {760,  100,txLoadImage("pictures/Тело/тело.bmp"),120,598, "Тело"};
+    variants[1] = {760,  200,txLoadImage("pictures/Тело/тело1.bmp"),120,598, "Тело"};
+    variants[2] = {760,  300,txLoadImage("pictures/Тело/тело2.bmp"),120,598, "Тело"};
 
-    head[3] =  {760, 100,txLoadImage("pictures/курточка/f.bmp"),195,246, "Верх"};
-    head[4] =  {760, 200,txLoadImage("pictures/курточка/g.bmp"),195,246, "Верх"};
-    head[5] =  {760, 300,txLoadImage("pictures/курточка/w.bmp"),195,246, "Верх"};
-    head[6] =  {760, 400,txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
+    variants[3] = {760, 100,txLoadImage("pictures/курточка/f.bmp"),195,246, "Верх"};
+    variants[4] = {760, 200,txLoadImage("pictures/курточка/g.bmp"),195,246, "Верх"};
+    variants[5] = {760, 300,txLoadImage("pictures/курточка/w.bmp"),195,246, "Верх"};
+    variants[6] = {760, 400,txLoadImage("pictures/курточка/green.bmp"),195,245, "Верх"};
+    variants[7] = {760, 500,txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
 
-    head[7] =  {760, 100,txLoadImage("pictures/штаны/штаны.bmp"),107,292, "Низ"};
-    head[8] =  {760, 200,txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
+    variants[8] = {760, 100,txLoadImage("pictures/штаны/штаны.bmp"),107,292, "Низ"};
+    variants[9] = {760, 200,txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
 
-
-    head[9] =  {760, 100,txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
-    head[10] =  {760, 200,txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
-    head[11] =  {760, 300,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
+    variants[10] = {760, 100,txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
+    variants[11] = {760, 200,txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
+    variants[12] = {760, 300,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
+    variants[13] = {760, 400,txLoadImage("pictures/причёски/волосы/4.bmp"),95,71, "Голова"};
+    variants[14] = {760, 500,txLoadImage("pictures/причёски/волосы/5.bmp"),95,71, "Голова"};
 
     int n_active = -1;
 
-    for (int i = 0; i < N_HEAD; i++)
+    for (int i = 0; i < N_variants; i++)
     {
-        head1[i].category=head[i].category;
-        head1[i].height=head[i].height;
-        head1[i].picture=head[i].picture;
-        head1[i].width=head[i].width;
-        head1[i].visible = false;
+        center[i].category=variants[i].category;
+        center[i].height=variants[i].height;
+        center[i].picture=variants[i].picture;
+        center[i].width=variants[i].width;
+        center[i].visible = false;
 
-        if (head1[i].category == "Тело")
+        if (center[i].category == "Тело")
         {
-            head1[i].x = 111;
-            head1[i].y = 120;
+            center[i].x = 111;
+            center[i].y = 120;
         }
 
-           if (head1[i].category == "Верх")
+        if (center[i].category == "Верх")
         {
-            head1[i].x = 85;
-            head1[i].y = 290;
+            center[i].x = 85;
+            center[i].y = 290;
         }
 
-            if (head1[i].category == "Низ")
+        if (center[i].category == "Низ")
         {
-            head1[i].x = 111;
-            head1[i].y = 200;
+            center[i].x = 111;
+            center[i].y = 200;
         }
 
-            if (head1[i].category == "Голова")
+        if (center[i].category == "Голова")
         {
-            head1[i].x = 111;
-            head1[i].y = 125;
+            center[i].x = 111;
+            center[i].y = 125;
         }
-
     }
 
     const int N_BUTTON=8;
@@ -113,84 +112,80 @@ int main()
 
         txSetColor(TX_WHITE);
         txSetFillColor(TX_BLACK);
-    //меню создание персонажа
+        //меню создание персонажа
 
 
-    //панель где выбираеться елемент
+        //панель где выбираеться елемент
         txRectangle(730,20,890,770);
 
         for (int i=0;i<N_BUTTON;i= i+1)
             drawButton(button[i]);
 
 
-    //вставка головы (надо бы на волосы заменить)
+        //вставка головы (надо бы на волосы заменить)
         for (int i=0;i<N_BUTTON;i= i+1)
-        if (clickButton(button[i].x, button[i].y))
+            if (clickButton(button[i].x, button[i].y))
+            {
+                 vybrannaya_category=button[i].category;
+            }
+
+        for (int i = 0; i < N_variants; i++)
+            if (variants[i].category == vybrannaya_category)
+            {
+                 Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100, 100, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
+            }
+
+    //движение картинки
+        for (int i = 0; i < N_variants; i++)
         {
-             vybrannaya_category=button[i].category;
+            if( //картинка видна
+                txMouseX()>= center[i].x && txMouseX()<= center[i].x + center[i].width &&
+                txMouseY()>= center[i].y && txMouseY()<= center[i].y + center[i].height  &&
+                txMouseButtons()==1 && n_active < 0 &&
+                center[i].visible)
+            {
+                n_active = i;
+            }
         }
 
-    for (int i = 0; i < N_HEAD; i++)
-        if(head[i].category == vybrannaya_category)
+        if (n_active >= 0)
         {
-             Win32::TransparentBlt  (txDC(), head[i].x, head[i].y, 100, 100, head[i].picture, 0, 0, head[i].width,head[i].height,  TX_WHITE);
-        }
-
-//движение картинки
-    for(int i=0; i < N_HEAD; i++)
-    {
-        if( //картинка видна
-            txMouseX()>= head1[i].x && txMouseX()<= head1[i].x + head1[i].width &&
-            txMouseY()>= head1[i].y && txMouseY()<= head1[i].y + head1[i].height  &&
-            txMouseButtons()==1 && n_active < 0 &&
-            head1[i].visible
-          )
-
-
-          {
-             n_active = i;
-          }
-    }
-
-    if(n_active >= 0)
-    {
-        head1[n_active].x = txMouseX() - 10;
-        head1[n_active].y = txMouseY() - 10;
-    }
-
-
-    if (n_active >= 0 && txMouseX() < 10)
-
-    {
-      head1[n_active].visible = false; //(невидемый)
-
-    }
-
-    if(txMouseButtons()==0)
-        n_active = -100;
-
-
-    //Клик на вариант
-    for (int i = 0; i < N_HEAD; i++)
-        if(head[i].category == vybrannaya_category &&
-           txMouseX()>= head[i].x && txMouseX()<= head[i].x + head[i].height &&
-           txMouseY()>= head[i].y && txMouseY()<= head[i].y + head[i].width  &&    txMouseButtons()==1)
-        {
-            //Все хед1 с такой же категорией скрыть
-
-            head1[i].visible = true;
+            center[n_active].x = txMouseX() - 10;
+            center[n_active].y = txMouseY() - 10;
         }
 
 
-    for (int i = 0; i < N_HEAD; i++)
-        if (head1[i].visible)
-             Win32::TransparentBlt  (txDC(), head1[i].x, head1[i].y, head1[i].width, head1[i].height, head1[i].picture, 0, 0, head1[i].width, head1[i].height, TX_WHITE);
+        if (n_active >= 0 && txMouseX() < 10)
+        {
+            center[n_active].visible = false; //(невидемый)
+        }
+
+        if(txMouseButtons()==0)
+            n_active = -100;
+
+
+        //Клик на вариант
+        for (int i = 0; i < N_variants; i++)
+            if(variants[i].category == vybrannaya_category &&
+               txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + variants[i].height &&
+               txMouseY()>= variants[i].y && txMouseY()<= variants[i].y + variants[i].width  &&    txMouseButtons()==1)
+            {
+                //Все хед1 с такой же категорией скрыть
+
+                center[i].visible = true;
+            }
+
+
+        for (int i = 0; i < N_variants; i++)
+            if (center[i].visible)
+                 Win32::TransparentBlt  (txDC(), center[i].x, center[i].y, center[i].width, center[i].height, center[i].picture, 0, 0, center[i].width, center[i].height, TX_WHITE);
 
 
 
-    txSleep(10);
-    txEnd();
-}
-txDeleteDC(head[0].picture);
-return 0;
+        txSleep(10);
+        txEnd();
+    }
+    //Их побольше одной:)
+    txDeleteDC(variants[0].picture);
+    return 0;
 }
