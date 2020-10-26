@@ -158,6 +158,14 @@ int main()
         head1[n_active].y = txMouseY() - 10;
     }
 
+
+    if (n_active >= 0 && txMouseX() < 10)
+
+    {
+      head1[n_active].visible = false; //(невидемый)
+
+    }
+
     if(txMouseButtons()==0)
         n_active = -100;
 
