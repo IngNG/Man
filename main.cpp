@@ -37,7 +37,7 @@ int main()
     txCreateWindow (900, 780);
 
     string vybrannaya_category = "";
-    const int N_variants = 15;
+    const int N_variants = 18;
     variants variants[N_variants], center[N_variants];
     variants[0] = {760,  100,txLoadImage("pictures/Тело/тело.bmp"),120,598, "Тело"};
     variants[1] = {760,  200,txLoadImage("pictures/Тело/тело1.bmp"),120,598, "Тело"};
@@ -57,6 +57,17 @@ int main()
     variants[12] = {760, 300,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
     variants[13] = {760, 400,txLoadImage("pictures/причёски/волосы/4.bmp"),95,71, "Голова"};
     variants[14] = {760, 500,txLoadImage("pictures/причёски/волосы/5.bmp"),95,71, "Голова"};
+
+    variants[15] = {760, 100,txLoadImage("pictures/юбки/1.bmp"),140,120, "Юбки"};
+    variants[16] = {760, 200,txLoadImage("pictures/юбки/2.bmp"),140,120, "Юбки"};
+    variants[17] = {760, 300,txLoadImage("pictures/юбки/1.bmp"),140,120, "Юбки"};
+
+
+    for (int i = 0; i < N_variants; i++)
+    {
+        variants[i].x = 760;
+    }
+
 
     int n_active = -1;
 
@@ -91,6 +102,16 @@ int main()
             center[i].x = 111;
             center[i].y = 125;
         }
+
+        if (center[i].category == "Юбки")
+        {
+            center[i].x = 140;
+            center[i].y = 200;
+        }
+
+
+
+
     }
 
     const int N_BUTTON=8;
@@ -98,7 +119,7 @@ int main()
     button[0] = { 10, 20,"Волосы", "Голова"};
     button[1] = {180, 20,"Тело", "Тело"};
     button[2] = {350, 20,"Лицо", ""};
-    button[3] = {530, 20," ", ""};
+    button[3] = {530, 20,"Юбки ", "Юбки"};
     button[4] = { 10, 80,"Верх", "Верх"};
     button[5] = {180, 80,"Низ", "Низ"};
     button[6] = {350, 80,"Куртка", "Куртка"};
