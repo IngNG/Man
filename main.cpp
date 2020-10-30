@@ -157,12 +157,13 @@ int main()
             }
 
     //движение картинки
-        for (int i = 0; i < N_variants; i++)
+        for (int i =  < N_variants; i = 0; i--)
         {
             if( //картинка видна
                 txMouseX()>= center[i].x && txMouseX()<= center[i].x + center[i].width &&
                 txMouseY()>= center[i].y && txMouseY()<= center[i].y + center[i].height  &&
                 txMouseButtons()==1 && n_active < 0 &&
+
                 center[i].visible)
             {
                 n_active = i;
@@ -190,6 +191,8 @@ int main()
             if(variants[i].category == vybrannaya_category &&
                txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + variants[i].height &&
                txMouseY()>= variants[i].y && txMouseY()<= variants[i].y + variants[i].width  &&    txMouseButtons()==1)
+
+
             {
                 //¬се хед1 с такой же категорией скрыть
 
