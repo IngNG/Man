@@ -2,13 +2,13 @@
 
 struct variants
 {
-    int x;
-    int y;
     HDC picture;
     int width;
     int height;
     string category;
     bool visible;
+    int x;
+    int y;
 };
 
 struct Button
@@ -39,33 +39,68 @@ int main()
     string vybrannaya_category = "";
     const int N_variants = 18;
     variants variants[N_variants], center[N_variants];
-    variants[0] = {760,  100,txLoadImage("pictures/Тело/тело.bmp"),120,598, "Тело"};
-    variants[1] = {760,  200,txLoadImage("pictures/Тело/тело1.bmp"),120,598, "Тело"};
-    variants[2] = {760,  300,txLoadImage("pictures/Тело/тело2.bmp"),120,598, "Тело"};
+    variants[0] = {txLoadImage("pictures/Тело/тело.bmp"),120,598, "Тело"};
+    variants[1] = {txLoadImage("pictures/Тело/тело1.bmp"),120,598, "Тело"};
+    variants[2] = {txLoadImage("pictures/Тело/тело2.bmp"),120,598, "Тело"};
 
-    variants[3] = {760, 100,txLoadImage("pictures/курточка/f.bmp"),195,246, "Верх"};
-    variants[4] = {760, 200,txLoadImage("pictures/курточка/g.bmp"),195,246, "Верх"};
-    variants[5] = {760, 300,txLoadImage("pictures/курточка/w.bmp"),195,246, "Верх"};
-    variants[6] = {760, 400,txLoadImage("pictures/курточка/green.bmp"),195,245, "Верх"};
-    variants[7] = {760, 500,txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
+    variants[3] = {txLoadImage("pictures/курточка/f.bmp"),195,246, "Верх"};
+    variants[4] = {txLoadImage("pictures/курточка/g.bmp"),195,246, "Верх"};
+    variants[5] = {txLoadImage("pictures/курточка/w.bmp"),195,246, "Верх"};
+    variants[6] = {txLoadImage("pictures/курточка/green.bmp"),195,245, "Верх"};
+    variants[7] = {txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
 
-    variants[8] = {760, 100,txLoadImage("pictures/штаны/штаны.bmp"),107,292, "Низ"};
-    variants[9] = {760, 200,txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
+    variants[8] = {txLoadImage("pictures/штаны/штаны.bmp"),107,292, "Низ"};
+    variants[9] = {txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
 
-    variants[10] = {760, 100,txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
-    variants[11] = {760, 200,txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
-    variants[12] = {760, 300,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
-    variants[13] = {760, 400,txLoadImage("pictures/причёски/волосы/4.bmp"),95,71, "Голова"};
-    variants[14] = {760, 500,txLoadImage("pictures/причёски/волосы/5.bmp"),95,71, "Голова"};
+    variants[10] = {txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
+    variants[11] = {txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
+    variants[12] = {txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
+    variants[13] = {txLoadImage("pictures/причёски/волосы/4.bmp"),95,71, "Голова"};
+    variants[14] = {txLoadImage("pictures/причёски/волосы/5.bmp"),95,71, "Голова"};
 
-    variants[15] = {760, 100,txLoadImage("pictures/юбки/1.bmp"),140,120, "Юбки"};
-    variants[16] = {760, 200,txLoadImage("pictures/юбки/2.bmp"),140,120, "Юбки"};
-    variants[17] = {760, 300,txLoadImage("pictures/юбки/1.bmp"),140,120, "Юбки"};
+    variants[15] = {txLoadImage("pictures/юбки/1.bmp"),140,120, "Юбки"};
+    variants[16] = {txLoadImage("pictures/юбки/2.bmp"),140,120, "Юбки"};
+    variants[17] = {txLoadImage("pictures/юбки/1.bmp"),140,120, "Юбки"};
 
+    //Цикл, в котором считаются координаты, ширина, высота
+
+    int y_Yubki = 100;
+    int y_Niza = 100;
+    int y_Golova = 100;
+    int y_Volosi = 100;
+    int y_Telo = 100;
 
     for (int i = 0; i < N_variants; i++)
     {
         variants[i].x = 760;
+        if (variants[i].category == "Юбки")
+        {
+            variants[i].y = y_Yubki;
+            y_Yubki = y_Yubki + 100;
+        }
+        if (variants[i].category == "Низ")
+        {
+            variants[i].y = y_Niza;
+            y_Niza = y_Niza + 100;
+        }
+
+        if (variants[i].category == "Голова")
+        {
+            variants[i].y = y_Golova;
+            y_Golova = y_Golova + 100;
+        }
+
+        if (variants[i].category == "Волосы")
+        {
+            variants[i].y = y_Volosi;
+            y_Volosi = y_Volosi + 100;
+        }
+
+        if (variants[i].category == "Тело")
+        {
+            variants[i].y = y_Telo;
+            y_Telo = y_Telo + 100;
+        }
     }
 
 
