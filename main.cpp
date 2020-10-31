@@ -75,20 +75,20 @@ int main()
     variants[1] = {"pictures/Тело/тело1.bmp", "Тело"};
     variants[2] = {"pictures/Тело/тело2.bmp", "Тело"};
 
-    variants[3] = {"pictures/курточка/f.bmp", "Верх"};
-    variants[4] = {"pictures/курточка/g.bmp", "Верх"};
-    variants[5] = {"pictures/курточка/w.bmp", "Верх"};
-    variants[6] = {"pictures/курточка/green.bmp", "Верх"};
-    variants[7] = {"pictures/кофточка/желтая.bmp", "Верх"};
+    variants[3] = {"pictures/Верх/f.bmp", "Верх"};
+    variants[4] = {"pictures/Верх/g.bmp", "Верх"};
+    variants[5] = {"pictures/Верх/w.bmp", "Верх"};
+    variants[6] = {"pictures/Верх/green.bmp", "Верх"};
+    variants[7] = {"pictures/Верх/желтая.bmp", "Верх"};
 
-    variants[8] = {"pictures/штаны/штаны.bmp", "Низ"};
-    variants[9] = {"pictures/штаны/штаны1.bmp", "Низ"};
+    variants[8] = {"pictures/Низ/штаны.bmp", "Низ"};
+    variants[9] = {"pictures/Низ/штаны1.bmp", "Низ"};
 
-    variants[10] = {"pictures/причёски/волосы/1.bmp", "причёски"};
-    variants[11] = {"pictures/причёски/волосы/2.bmp", "причёски"};
-    variants[12] = {"pictures/причёски/волосы/3.bmp", "причёски"};
-    variants[13] = {"pictures/причёски/волосы/4.bmp", "причёски"};
-    variants[14] = {"pictures/причёски/волосы/5.bmp", "причёски"};
+    variants[10] = {"pictures/причёски/1.bmp", "причёски"};
+    variants[11] = {"pictures/причёски/2.bmp", "причёски"};
+    variants[12] = {"pictures/причёски/3.bmp", "причёски"};
+    variants[13] = {"pictures/причёски/4.bmp", "причёски"};
+    variants[14] = {"pictures/причёски/5.bmp", "причёски"};
 
     variants[15] = {"pictures/юбки/1.bmp", "Юбки"};
     variants[16] = {"pictures/юбки/2.bmp", "Юбки"};
@@ -176,7 +176,7 @@ int main()
         if (center[i].category == "Низ")
         {
             center[i].x = 111;
-            center[i].y = 200;
+            center[i].y = 300;
         }
 
         if (center[i].category == "причёски")
@@ -188,7 +188,7 @@ int main()
         if (center[i].category == "Юбки")
         {
             center[i].x = 140;
-            center[i].y = 200;
+            center[i].y = 300;
         }
     }
 
@@ -230,6 +230,7 @@ int main()
         for (int i = 0; i < N_variants; i++)
             if (variants[i].category == vybrannaya_category)
             {
+                //Тут можно учитывать пропорции
                  Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100, 100, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
             }
 
