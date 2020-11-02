@@ -1,20 +1,14 @@
 #include "TXLib.h"
-#include <fstream>
-#include <iostream>
-#include <cstdlib>
-#include <cstring>
-using namespace std;
 
 struct variants
 {
-    const char* address;
-    string category;
+    int x;
+    int y;
     HDC picture;
     int width;
     int height;
+    string category;
     bool visible;
-    int x;
-    int y;
 };
 
 struct Button
@@ -38,32 +32,6 @@ bool clickButton(int x, int y)
     return true;
 }
 
-
-//ищем высоту и ширину картнки
-int getWidth(const char* address)
-{
-    char header[54];
-    ifstream bmp;
-    bmp.open(address, ios::in | ios::binary);
-    bmp.read(header, 54);
-    int width;
-    memcpy(&width, &header[18], sizeof(width));
-    return width;
-}
-
-int getHeight(const char* address)
-{
-    char header[54];
-    ifstream bmp;
-    bmp.open(address, ios::in | ios::binary);
-    bmp.read(header, 54);
-    int height;
-    memcpy(&height, &header[22], sizeof(height));
-    return height;
-}
-
-
-
 int main()
 {
     txCreateWindow (900, 780);
@@ -71,87 +39,37 @@ int main()
     string vybrannaya_category = "";
     const int N_variants = 18;
     variants variants[N_variants], center[N_variants];
-    variants[0] = {"pictures/Тело/тело.bmp", "Тело"};
-    variants[1] = {"pictures/Тело/тело1.bmp", "Тело"};
-    variants[2] = {"pictures/Тело/тело2.bmp", "Тело"};
+    variants[0] = {760,  100,txLoadImage("pictures/Тело/тело.bmp"),120,598, "Тело"};
+    variants[1] = {760,  200,txLoadImage("pictures/Тело/тело1.bmp"),120,598, "Тело"};
+    variants[2] = {760,  300,txLoadImage("pictures/Тело/тело2.bmp"),120,598, "Тело"};
 
-    variants[3] = {"pictures/Верх/f.bmp", "Верх"};
-    variants[4] = {"pictures/Верх/g.bmp", "Верх"};
-    variants[5] = {"pictures/Верх/w.bmp", "Верх"};
-    variants[6] = {"pictures/Верх/green.bmp", "Верх"};
-    variants[7] = {"pictures/Верх/желтая.bmp", "Верх"};
+    variants[3] = {760, 100,txLoadImage("pictures/курточка/f.bmp"),195,246, "Верх"};
+    variants[4] = {760, 200,txLoadImage("pictures/курточка/g.bmp"),195,246, "Верх"};
+    variants[5] = {760, 300,txLoadImage("pictures/курточка/w.bmp"),195,246, "Верх"};
+    variants[6] = {760, 400,txLoadImage("pictures/курточка/green.bmp"),195,245, "Верх"};
+    variants[7] = {760, 500,txLoadImage("pictures/кофточка/желтая.bmp"),251,261, "Верх"};
 
-    variants[8] = {"pictures/Низ/штаны.bmp", "Низ"};
-    variants[9] = {"pictures/Низ/штаны1.bmp", "Низ"};
+    variants[8] = {760, 100,txLoadImage("pictures/штаны/штаны.bmp"),107,292, "Низ"};
+    variants[9] = {760, 200,txLoadImage("pictures/штаны/штаны1.bmp"),107,292, "Низ"};
 
-    variants[10] = {"pictures/причёски/1.bmp", "причёски"};
-    variants[11] = {"pictures/причёски/2.bmp", "причёски"};
-    variants[12] = {"pictures/причёски/3.bmp", "причёски"};
-    variants[13] = {"pictures/причёски/4.bmp", "причёски"};
-    variants[14] = {"pictures/причёски/5.bmp", "причёски"};
+    variants[10] = {760, 100,txLoadImage("pictures/причёски/волосы/1.bmp"),92,84, "Голова"};
+    variants[11] = {760, 200,txLoadImage("pictures/причёски/волосы/2.bmp"),92,84, "Голова"};
+    variants[12] = {760, 300,txLoadImage("pictures/причёски/волосы/3.bmp"),92,84, "Голова"};
+    variants[13] = {760, 400,txLoadImage("pictures/причёски/волосы/4.bmp"),95,71, "Голова"};
+    variants[14] = {760, 500,txLoadImage("pictures/причёски/волосы/5.bmp"),95,71, "Голова"};
 
-    variants[15] = {"pictures/юбки/1.bmp", "Юбки"};
-    variants[16] = {"pictures/юбки/2.bmp", "Юбки"};
-    variants[17] = {"pictures/юбки/1.bmp", "Юбки"};
+    variants[15] = {760, 100,txLoadImage("pictures/юбки/1.bmp"),140,120, "Юбки"};
+    variants[16] = {760, 200,txLoadImage("pictures/юбки/2.bmp"),140,120, "Юбки"};
+    variants[17] = {760, 300,txLoadImage("pictures/юбки/1.bmp"),140,120, "Юбки"};
 
-    //Цикл, в котором считаются координаты, ширина, высота
-
-    int y_Yubki = 50;
-    int y_Niza = 50;
-    int y_Golova = 50;
-    int y_Volosi = 50;
-    int y_Telo = 50;
-    int y_Verxa = 50;
 
     for (int i = 0; i < N_variants; i++)
     {
         variants[i].x = 760;
-        if (variants[i].category == "Юбки")
-        {
-            variants[i].y = y_Yubki;
-            y_Yubki = y_Yubki + 100;
-        }
-        if (variants[i].category == "Низ")
-        {
-            variants[i].y = y_Niza;
-            y_Niza = y_Niza + 100;
-        }
-
-        if (variants[i].category == "причёски")
-        {
-            variants[i].y = y_Golova;
-            y_Golova = y_Golova + 100;
-        }
-
-        if (variants[i].category == "Волосы")
-        {
-            variants[i].y = y_Volosi;
-            y_Volosi = y_Volosi + 100;
-        }
-
-        if (variants[i].category == "Тело")
-        {
-            variants[i].y = y_Telo;
-            y_Telo = y_Telo + 100;
-        }
-
-         if (variants[i].category == "Верх")
-        {
-            variants[i].y = y_Verxa;
-            y_Verxa = y_Verxa + 100;
-        }
     }
 
-    for(int i = 0; i < N_variants; i++)
-    {
-        variants[i].visible = false;
-        variants[i].picture = txLoadImage (variants[i].address);
-        variants[i].width   = getWidth  (variants[i].address);
-        variants[i].height  = getHeight (variants[i].address);
-    }
 
     int n_active = -1;
-
 
     for (int i = 0; i < N_variants; i++)
     {
@@ -176,10 +94,10 @@ int main()
         if (center[i].category == "Низ")
         {
             center[i].x = 111;
-            center[i].y = 300;
+            center[i].y = 200;
         }
 
-        if (center[i].category == "причёски")
+        if (center[i].category == "Голова")
         {
             center[i].x = 111;
             center[i].y = 125;
@@ -188,13 +106,17 @@ int main()
         if (center[i].category == "Юбки")
         {
             center[i].x = 140;
-            center[i].y = 300;
+            center[i].y = 200;
         }
+
+
+
+
     }
 
     const int N_BUTTON=8;
     Button button[N_BUTTON];
-    button[0] = { 10, 20,"Волосы", "причёски"};
+    button[0] = { 10, 20,"Волосы", "Голова"};
     button[1] = {180, 20,"Тело", "Тело"};
     button[2] = {350, 20,"Лицо", ""};
     button[3] = {530, 20,"Юбки ", "Юбки"};
@@ -211,16 +133,17 @@ int main()
 
         txSetColor(TX_WHITE);
         txSetFillColor(TX_BLACK);
-//меню создание персонажа
+        //меню создание персонажа
 
 
- //панель где выбираеться элемент
+        //панель где выбираеться елемент
         txRectangle(730,20,890,770);
 
         for (int i=0;i<N_BUTTON;i= i+1)
             drawButton(button[i]);
 
-   //картинки на панели
+
+        //вставка головы (надо бы на волосы заменить)
         for (int i=0;i<N_BUTTON;i= i+1)
             if (clickButton(button[i].x, button[i].y))
             {
@@ -230,18 +153,16 @@ int main()
         for (int i = 0; i < N_variants; i++)
             if (variants[i].category == vybrannaya_category)
             {
-                //Тут можно учитывать пропорции
                  Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100, 100, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
             }
 
- //движение картинки
-        for (int i = N_variants - 1; i >= 0; i--)
+    //движение картинки
+        for (int i = 0; i < N_variants; i++)
         {
             if( //картинка видна
                 txMouseX()>= center[i].x && txMouseX()<= center[i].x + center[i].width &&
                 txMouseY()>= center[i].y && txMouseY()<= center[i].y + center[i].height  &&
                 txMouseButtons()==1 && n_active < 0 &&
-
                 center[i].visible)
             {
                 n_active = i;
@@ -264,13 +185,11 @@ int main()
             n_active = -100;
 
 
-    //Клик на вариант
+        //Клик на вариант
         for (int i = 0; i < N_variants; i++)
             if(variants[i].category == vybrannaya_category &&
-               txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + variants[i].height &&
-               txMouseY()>= variants[i].y && txMouseY()<= variants[i].y + variants[i].width  &&    txMouseButtons()==1)
-
-
+               txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + variants[i].x + 100  &&
+               txMouseY()>= variants[i].y && txMouseY()<= variants[i].y + variants[i].y + 100  &&    txMouseButtons()==1)
             {
                 //Все хед1 с такой же категорией скрыть
 
