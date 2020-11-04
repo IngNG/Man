@@ -69,7 +69,7 @@ int main()
     txCreateWindow (900, 780);
 
     string vybrannaya_category = "";
-    const int N_variants = 18;
+    const int N_variants = 21;
     variants variants[N_variants], center[N_variants];
     variants[0] = {"pictures/Тело/тело.bmp", "Тело"};
     variants[1] = {"pictures/Тело/тело1.bmp", "Тело"};
@@ -94,6 +94,12 @@ int main()
     variants[16] = {"pictures/юбки/2.bmp", "Юбки"};
     variants[17] = {"pictures/юбки/1.bmp", "Юбки"};
 
+    variants[18] = {"pictures/Украшения/1.bmp", "Украшения"};
+    variants[19] = {"pictures/Украшения/2.bmp", "Украшения"};
+    variants[20] = {"pictures/Украшения/3.bmp", "Украшения"};
+
+
+
     //Цикл, в котором считаются координаты, ширина, высота
 
     int y_Yubki = 50;
@@ -102,6 +108,7 @@ int main()
     int y_Volosi = 50;
     int y_Telo = 50;
     int y_Verxa = 50;
+    int Y_Ykrashenia = 50;
 
     for (int i = 0; i < N_variants; i++)
     {
@@ -140,6 +147,12 @@ int main()
             variants[i].y = y_Verxa;
             y_Verxa = y_Verxa + 100;
         }
+        if (variants[i].category == "Украшения")
+        {
+            variants[i].y = Y_Ykrashenia;
+            Y_Ykrashenia = Y_Ykrashenia + 100;
+        }
+
     }
 
     for(int i = 0; i < N_variants; i++)
@@ -190,6 +203,13 @@ int main()
             center[i].x = 140;
             center[i].y = 300;
         }
+
+     if (center[i].category == "Украшения")
+        {
+            center[i].x = 150;
+            center[i].y = 320;
+        }
+
     }
 
     const int N_BUTTON=8;
