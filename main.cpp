@@ -1,9 +1,11 @@
 #include "TXLib.h"
+#include "ZProjectLibs/main_terms.h"
+#include "ZProjectLibs/hyperoperators.h"
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
-using namespace std;
+__ns__ std;
 
 struct variants
 {
@@ -69,7 +71,7 @@ int main()
     txCreateWindow (900, 780);
 
     string vybrannaya_category = "";
-    const int N_variants = 18;
+    const int N_variants = 20;
     variants variants[N_variants], center[N_variants];
     variants[0] = {"pictures/Тело/тело.bmp", "Тело"};
     variants[1] = {"pictures/Тело/тело1.bmp", "Тело"};
@@ -93,6 +95,9 @@ int main()
     variants[15] = {"pictures/юбки/1.bmp", "Юбки"};
     variants[16] = {"pictures/юбки/2.bmp", "Юбки"};
     variants[17] = {"pictures/юбки/1.bmp", "Юбки"};
+
+    variants[18] = {"pictures/юбки/1.bmp", "Украшения"};
+    variants[19] = {"pictures/юбки/1.bmp", "Юбки"};
 
     //Цикл, в котором считаются координаты, ширина, высота
 
@@ -192,6 +197,18 @@ int main()
         }
     }
 
+
+//загрузка из файла
+        ifstream file1("1.txt");
+        while(file1.good())
+        {
+            string s;
+            getline(file1, s);
+            //variants[0].x = atoi (s.c_str());
+            //variants[0].y = atoi (s.c_str());
+        }
+        file1.close();
+
     const int N_BUTTON=8;
     Button button[N_BUTTON];
     button[0] = { 10, 20,"Волосы", "причёски"};
@@ -203,10 +220,13 @@ int main()
     button[6] = {350, 80,"Куртка", "Куртка"};
     button[7] = {530, 80,"Украшения", "Украшения"};
 
+    //Само редактирование
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
         txBegin();
         txClear();
+
+
 
 
         txSetColor(TX_WHITE);
@@ -231,8 +251,10 @@ int main()
             if (variants[i].category == vybrannaya_category)
             {
                 //Тут можно учитывать пропорции
-                 Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100, 100, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
+                Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100 *variants[i].width/variants[i].height, 100, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
             }
+
+
 
  //движение картинки
         for (int i = N_variants - 1; i >= 0; i--)
@@ -267,12 +289,13 @@ int main()
     //Клик на вариант
         for (int i = 0; i < N_variants; i++)
             if(variants[i].category == vybrannaya_category &&
-               txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + variants[i].height &&
-               txMouseY()>= variants[i].y && txMouseY()<= variants[i].y + variants[i].width  &&    txMouseButtons()==1)
-
-
+               txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + 100 &&
+               txMouseY()>= variants[i].y && txMouseY()<= variants[i].y + 100  &&    txMouseButtons()==1)
             {
                 //Все хед1 с такой же категорией скрыть
+                for (int k = 0; k < N_variants; k++)
+                    if (center[i].category == center[k].category)
+                        center[k].visible = false;
 
                 center[i].visible = true;
             }
@@ -289,5 +312,20 @@ int main()
     }
     //Их побольше одной:)
     txDeleteDC(variants[0].picture);
+
+
+//сохранение в файл
+    ofstream file("1.txt");
+    for (int i = 0; i < N_variants; i++)
+    {
+        if (variants[i].visible == true)
+        {
+            file << variants[i].x << endl;
+            file << variants[i].y << endl;
+            file << variants[i].address << endl;
+        }
+    }
+    file.close();
+
     return 0;
 }
