@@ -27,8 +27,9 @@ struct Button
 
 void drawButton(Button button)
 {
-    txRectangle(button.x, button.y, button.x+160, button.y+40);
-    txDrawText (button.x, button.y, button.x+160, button.y+40, button.text);
+     //txRectangle           (x, y, x + 200, y + 80);
+        Win32::RoundRect(txDC(), button.x, button.y, button.x + 160, button.y + 40, 10, 10);
+        txDrawText (button.x, button.y, button.x+160, button.y+40, button.text);
 }
 
 bool clickButton(int x, int y)
@@ -251,7 +252,15 @@ int main()
         txRectangle(730,20,890,770);
 
         for (int i=0;i<N_BUTTON;i= i+1)
+        {
+            txSetColor(TX_WHITE);
+            if (vybrannaya_category==button[i].category)
+            {
+                txSetColor(TX_WHITE, 8);
+            }
+
             drawButton(button[i]);
+        }
 
    //картинки на панели
         for (int i=0;i<N_BUTTON;i= i+1)
