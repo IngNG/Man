@@ -73,32 +73,47 @@ int main()
 
     const int N_variants = 21;
     variants variants[N_variants], center[N_variants];
-    variants[0] = {"pictures/Тело/тело.bmp", "Тело"};
-    variants[1] = {"pictures/Тело/тело1.bmp", "Тело"};
-    variants[2] = {"pictures/Тело/тело2.bmp", "Тело"};
+    variants[0] = {"pictures/Тело/тело.bmp"};
+    variants[1] = {"pictures/Тело/тело1.bmp"};
+    variants[2] = {"pictures/Тело/тело2.bmp"};
 
-    variants[3] = {"pictures/Верх/f.bmp", "Верх"};
-    variants[4] = {"pictures/Верх/g.bmp", "Верх"};
-    variants[5] = {"pictures/Верх/w.bmp", "Верх"};
-    variants[6] = {"pictures/Верх/green.bmp", "Верх"};
-    variants[7] = {"pictures/Верх/желтая.bmp", "Верх"};
+    variants[3] = {"pictures/Низ/штаны.bmp"};
+    variants[4] = {"pictures/Низ/штаны1.bmp"};
 
-    variants[8] = {"pictures/Низ/штаны.bmp", "Низ"};
-    variants[9] = {"pictures/Низ/штаны1.bmp", "Низ"};
+    variants[5] = {"pictures/юбки/1.bmp"};
+    variants[6] = {"pictures/юбки/2.bmp"};
+    variants[7] = {"pictures/юбки/1.bmp"};
 
-    variants[10] = {"pictures/причёски/1.bmp", "причёски"};
-    variants[11] = {"pictures/причёски/2.bmp", "причёски"};
-    variants[12] = {"pictures/причёски/3.bmp", "причёски"};
-    variants[13] = {"pictures/причёски/4.bmp", "причёски"};
-    variants[14] = {"pictures/причёски/5.bmp", "причёски"};
+    variants[8] = {"pictures/причёски/1.bmp"};
+    variants[9] = {"pictures/причёски/2.bmp"};
+    variants[10] = {"pictures/причёски/3.bmp"};
+    variants[11] = {"pictures/причёски/4.bmp"};
+    variants[12] = {"pictures/причёски/5.bmp"};
 
-    variants[15] = {"pictures/юбки/1.bmp", "Юбки"};
-    variants[16] = {"pictures/юбки/2.bmp", "Юбки"};
-    variants[17] = {"pictures/юбки/1.bmp", "Юбки"};
+    variants[13] = {"pictures/Верх/f.bmp"};
+    variants[14] = {"pictures/Верх/g.bmp"};
+    variants[15] = {"pictures/Верх/w.bmp"};
+    variants[16] = {"pictures/Верх/green.bmp"};
+    variants[17] = {"pictures/Верх/желтая.bmp"};
 
-    variants[18] = {"pictures/Украшения/цветы1.bmp", "Украшения"};
-    variants[19] = {"pictures/Украшения/цветы2.bmp", "Украшения"};
-    variants[20] = {"pictures/Украшения/цветы3.bmp", "Украшения"};
+    variants[18] = {"pictures/Украшения/цветы1.bmp"};
+    variants[19] = {"pictures/Украшения/цветы2.bmp"};
+    variants[20] = {"pictures/Украшения/цветы3.bmp"};
+
+
+for (int i = 0; i < N_variants; i = i + 1)
+    {
+        string address = variants[i].address;
+        int pos1 = address.find("/",1);
+        int pos2 = address.find("/",pos1 + 1);
+        int pos3 = address.find(".",pos2 + 1);
+
+        variants[i].category = address.substr(pos1 + 1, pos2-pos1-1);
+
+        variants[i].picture = txLoadImage(variants[i].address);
+        variants[i].height = getHeight(variants[i].address);
+        variants[i].width = getWidth(variants[i].address);
+    }
 
     //Цикл, в котором считаются координаты, ширина, высота
     int y_Yubki = 50;
@@ -228,7 +243,7 @@ int main()
     button[0] = { 10, 20,"Волосы", "причёски"};
     button[1] = {180, 20,"Тело", "Тело"};
     button[2] = {350, 20,"Лицо", ""};
-    button[3] = {530, 20,"Юбки ", "Юбки"};
+    button[3] = {530, 20,"Юбки ", "юбки"};
     button[4] = { 10, 80,"Верх", "Верх"};
     button[5] = {180, 80,"Низ", "Низ"};
     button[6] = {350, 80,"Куртка", "Куртка"};
@@ -269,11 +284,15 @@ int main()
                  vybrannaya_category=button[i].category;
             }
 
+
+
         for (int i = 0; i < N_variants; i++)
             if (variants[i].category == vybrannaya_category)
             {
-                //Тут можно учитывать пропорции
-                Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100 *variants[i].width/variants[i].height, 100, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
+                if(variants[i].width > variants[i].height)
+                Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100 , 100*variants[i].height/variants[i].width, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
+                else
+                Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100 * variants[i].width/variants[i].height, 100, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
             }
 
 
@@ -306,7 +325,6 @@ int main()
 
         if(txMouseButtons()==0)
             n_active = -100;
-
 
     //Клик на вариант
         for (int i = 0; i < N_variants; i++)
