@@ -71,37 +71,42 @@ int main()
 
     string vybrannaya_category = "";
 
-    const int N_variants = 21;
+    const int N_variants = 25;
     variants variants[N_variants], center[N_variants];
-    variants[0] = {"pictures/Тело/тело.bmp"};
-    variants[1] = {"pictures/Тело/тело1.bmp"};
-    variants[2] = {"pictures/Тело/тело2.bmp"};
+    variants[0] = {"pictures/Фон/Фон1.bmp"};
+    variants[1] = {"pictures/Фон/Фон2.bmp"};
+    variants[2] = {"pictures/Фон/Фон3.bmp"};
+    variants[3] = {"pictures/Фон/Фон4.bmp"};
 
-    variants[3] = {"pictures/Низ/штаны.bmp"};
-    variants[4] = {"pictures/Низ/штаны1.bmp"};
+    variants[4] = {"pictures/Тело/тело.bmp"};
+    variants[5] = {"pictures/Тело/тело1.bmp"};
+    variants[6] = {"pictures/Тело/тело2.bmp"};
 
-    variants[5] = {"pictures/юбки/1.bmp"};
-    variants[6] = {"pictures/юбки/2.bmp"};
-    variants[7] = {"pictures/юбки/1.bmp"};
+    variants[7] = {"pictures/Низ/штаны.bmp"};
+    variants[8] = {"pictures/Низ/штаны1.bmp"};
 
-    variants[8] = {"pictures/причёски/1.bmp"};
-    variants[9] = {"pictures/причёски/2.bmp"};
-    variants[10] = {"pictures/причёски/3.bmp"};
-    variants[11] = {"pictures/причёски/4.bmp"};
-    variants[12] = {"pictures/причёски/5.bmp"};
+    variants[9] = {"pictures/юбки/1.bmp"};
+    variants[10] = {"pictures/юбки/2.bmp"};
+    variants[11] = {"pictures/юбки/красная.bmp"};
 
-    variants[13] = {"pictures/Верх/f.bmp"};
-    variants[14] = {"pictures/Верх/g.bmp"};
-    variants[15] = {"pictures/Верх/w.bmp"};
-    variants[16] = {"pictures/Верх/green.bmp"};
-    variants[17] = {"pictures/Верх/желтая.bmp"};
+    variants[12] = {"pictures/причёски/1.bmp"};
+    variants[13] = {"pictures/причёски/2.bmp"};
+    variants[14] = {"pictures/причёски/3.bmp"};
+    variants[15] = {"pictures/причёски/4.bmp"};
+    variants[16] = {"pictures/причёски/5.bmp"};
 
-    variants[18] = {"pictures/Украшения/цветы1.bmp"};
-    variants[19] = {"pictures/Украшения/цветы2.bmp"};
-    variants[20] = {"pictures/Украшения/цветы3.bmp"};
+    variants[17] = {"pictures/Верх/f.bmp"};
+    variants[18] = {"pictures/Верх/g.bmp"};
+    variants[19] = {"pictures/Верх/w.bmp"};
+    variants[20] = {"pictures/Верх/green.bmp"};
+    variants[21] = {"pictures/Верх/желтая.bmp"};
 
+    variants[22] = {"pictures/Украшения/цветы1.bmp"};
+    variants[23] = {"pictures/Украшения/цветы2.bmp"};
+    variants[24] = {"pictures/Украшения/цветы3.bmp"};
 
-for (int i = 0; i < N_variants; i = i + 1)
+    //Считаем категорию, ширину, высоту
+    for (int i = 0; i < N_variants; i = i + 1)
     {
         string address = variants[i].address;
         int pos1 = address.find("/",1);
@@ -109,13 +114,16 @@ for (int i = 0; i < N_variants; i = i + 1)
         int pos3 = address.find(".",pos2 + 1);
 
         variants[i].category = address.substr(pos1 + 1, pos2-pos1-1);
+        variants[i].visible = false;
 
+        variants[i].x = 760;
         variants[i].picture = txLoadImage(variants[i].address);
         variants[i].height = getHeight(variants[i].address);
         variants[i].width = getWidth(variants[i].address);
     }
 
     //Цикл, в котором считаются координаты, ширина, высота
+    int Y_Fone = 50;
     int y_Yubki = 50;
     int y_Niza = 50;
     int y_Golova = 50;
@@ -124,10 +132,15 @@ for (int i = 0; i < N_variants; i = i + 1)
     int y_Verxa = 50;
     int Y_Ykrashenia = 50;
 
+
     for (int i = 0; i < N_variants; i++)
     {
-        variants[i].x = 760;
-        if (variants[i].category == "Юбки")
+        if (variants[i].category == "Фон")
+        {
+            variants[i].y = Y_Fone;
+            Y_Fone = Y_Fone + 100;
+        }
+        if (variants[i].category == "юбки")
         {
             variants[i].y = y_Yubki;
             y_Yubki = y_Yubki + 100;
@@ -169,13 +182,7 @@ for (int i = 0; i < N_variants; i = i + 1)
 
     }
 
-    for(int i = 0; i < N_variants; i++)
-    {
-        variants[i].visible = false;
-        variants[i].picture = txLoadImage (variants[i].address);
-        variants[i].width   = getWidth  (variants[i].address);
-        variants[i].height  = getHeight (variants[i].address);
-    }
+
 
     int n_active = -1;
 
@@ -187,6 +194,12 @@ for (int i = 0; i < N_variants; i = i + 1)
         center[i].picture=variants[i].picture;
         center[i].width=variants[i].width;
         center[i].visible = false;
+
+        if (center[i].category == "Фон")
+        {
+            center[i].x = 0;
+            center[i].y = 125;
+        }
 
         if (center[i].category == "Тело")
         {
@@ -223,7 +236,6 @@ for (int i = 0; i < N_variants; i = i + 1)
             center[i].x = 150;
             center[i].y = 320;
         }
-
     }
 
 
@@ -246,8 +258,11 @@ for (int i = 0; i < N_variants; i = i + 1)
     button[3] = {530, 20,"Юбки ", "юбки"};
     button[4] = { 10, 80,"Верх", "Верх"};
     button[5] = {180, 80,"Низ", "Низ"};
-    button[6] = {350, 80,"Куртка", "Куртка"};
+    button[6] = {350, 80,"Фон", "Фон"};
     button[7] = {530, 80,"Украшения", "Украшения"};
+
+
+
 
     //Само редактирование
     while(!GetAsyncKeyState(VK_ESCAPE))
@@ -350,7 +365,7 @@ for (int i = 0; i < N_variants; i = i + 1)
         txSleep(10);
         txEnd();
     }
-    //Их побольше одной:)
+    //Их побольше одной:)    УДАЛЙТЕ КАРТИНКИ БЛИН!!!
     txDeleteDC(variants[0].picture);
 
 
