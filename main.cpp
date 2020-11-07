@@ -71,36 +71,43 @@ int main()
 
     string vybrannaya_category = "";
 
-    const int N_variants = 21;
+    const int N_variants = 25;
     variants variants[N_variants], center[N_variants];
-    variants[0] = {"pictures/Тело/тело.bmp", "Тело"};
-    variants[1] = {"pictures/Тело/тело1.bmp", "Тело"};
-    variants[2] = {"pictures/Тело/тело2.bmp", "Тело"};
+    variants[0] = {"pictures/Фон/Фон1.bmp", "Фон"};
+    variants[1] = {"pictures/Фон/Фон2.bmp", "Фон"};
+    variants[2] = {"pictures/Фон/Фон3.bmp", "Фон"};
+    variants[3] = {"pictures/Фон/Фон4.bmp", "Фон"};
 
-    variants[3] = {"pictures/Верх/f.bmp", "Верх"};
-    variants[4] = {"pictures/Верх/g.bmp", "Верх"};
-    variants[5] = {"pictures/Верх/w.bmp", "Верх"};
-    variants[6] = {"pictures/Верх/green.bmp", "Верх"};
-    variants[7] = {"pictures/Верх/желтая.bmp", "Верх"};
+    variants[4] = {"pictures/Тело/тело.bmp", "Тело"};
+    variants[5] = {"pictures/Тело/тело1.bmp", "Тело"};
+    variants[6] = {"pictures/Тело/тело2.bmp", "Тело"};
 
-    variants[8] = {"pictures/Низ/штаны.bmp", "Низ"};
-    variants[9] = {"pictures/Низ/штаны1.bmp", "Низ"};
+    variants[7] = {"pictures/Верх/f.bmp", "Верх"};
+    variants[8] = {"pictures/Верх/g.bmp", "Верх"};
+    variants[9] = {"pictures/Верх/w.bmp", "Верх"};
+    variants[10] = {"pictures/Верх/green.bmp", "Верх"};
+    variants[11] = {"pictures/Верх/желтая.bmp", "Верх"};
 
-    variants[10] = {"pictures/причёски/1.bmp", "причёски"};
-    variants[11] = {"pictures/причёски/2.bmp", "причёски"};
-    variants[12] = {"pictures/причёски/3.bmp", "причёски"};
-    variants[13] = {"pictures/причёски/4.bmp", "причёски"};
-    variants[14] = {"pictures/причёски/5.bmp", "причёски"};
+    variants[12] = {"pictures/Низ/штаны.bmp", "Низ"};
+    variants[13] = {"pictures/Низ/штаны1.bmp", "Низ"};
 
-    variants[15] = {"pictures/юбки/1.bmp", "Юбки"};
-    variants[16] = {"pictures/юбки/2.bmp", "Юбки"};
-    variants[17] = {"pictures/юбки/1.bmp", "Юбки"};
+    variants[14] = {"pictures/причёски/1.bmp", "причёски"};
+    variants[15] = {"pictures/причёски/2.bmp", "причёски"};
+    variants[16] = {"pictures/причёски/3.bmp", "причёски"};
+    variants[17] = {"pictures/причёски/4.bmp", "причёски"};
+    variants[18] = {"pictures/причёски/5.bmp", "причёски"};
 
-    variants[18] = {"pictures/Украшения/цветы1.bmp", "Украшения"};
-    variants[19] = {"pictures/Украшения/цветы2.bmp", "Украшения"};
-    variants[20] = {"pictures/Украшения/цветы3.bmp", "Украшения"};
+    variants[19] = {"pictures/юбки/1.bmp", "Юбки"};
+    variants[20] = {"pictures/юбки/2.bmp", "Юбки"};
+    variants[21] = {"pictures/юбки/1.bmp", "Юбки"};
+
+    variants[22] = {"pictures/Украшения/цветы1.bmp", "Украшения"};
+    variants[23] = {"pictures/Украшения/цветы2.bmp", "Украшения"};
+    variants[24] = {"pictures/Украшения/цветы3.bmp", "Украшения"};
+
 
     //Цикл, в котором считаются координаты, ширина, высота
+     int Y_Fone = 50;
     int y_Yubki = 50;
     int y_Niza = 50;
     int y_Golova = 50;
@@ -109,8 +116,14 @@ int main()
     int y_Verxa = 50;
     int Y_Ykrashenia = 50;
 
+
     for (int i = 0; i < N_variants; i++)
     {
+        if (variants[i].category == "Фон")
+        {
+            variants[i].y = Y_Fone;
+            Y_Fone = Y_Fone + 100;
+        }
         variants[i].x = 760;
         if (variants[i].category == "Юбки")
         {
@@ -173,6 +186,12 @@ int main()
         center[i].width=variants[i].width;
         center[i].visible = false;
 
+        if (center[i].category == "Фон")
+        {
+            center[i].x = 0;
+            center[i].y = 125;
+        }
+
         if (center[i].category == "Тело")
         {
             center[i].x = 111;
@@ -208,7 +227,6 @@ int main()
             center[i].x = 150;
             center[i].y = 320;
         }
-
     }
 
 
@@ -231,8 +249,11 @@ int main()
     button[3] = {530, 20,"Юбки ", "Юбки"};
     button[4] = { 10, 80,"Верх", "Верх"};
     button[5] = {180, 80,"Низ", "Низ"};
-    button[6] = {350, 80,"Куртка", "Куртка"};
+    button[6] = {350, 80,"Фон", "Фон"};
     button[7] = {530, 80,"Украшения", "Украшения"};
+
+
+
 
     //Само редактирование
     while(!GetAsyncKeyState(VK_ESCAPE))
