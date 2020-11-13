@@ -192,6 +192,7 @@ int main()
         center[i].category=variants[i].category;
         center[i].height=variants[i].height;
         center[i].picture=variants[i].picture;
+        center[i].address=variants[i].address;
         center[i].width=variants[i].width;
         center[i].visible = false;
 
@@ -231,7 +232,7 @@ int main()
             center[i].y = 300;
         }
 
-     if (center[i].category == "Украшения")
+        if (center[i].category == "Украшения")
         {
             center[i].x = 150;
             center[i].y = 320;
@@ -239,16 +240,6 @@ int main()
     }
 
 
-//загрузка из файла
-        ifstream file1("1.txt");
-        while(file1.good())
-        {
-            string s;
-            getline(file1, s);
-            //variants[0].x = atoi (s.c_str());
-            //variants[0].y = atoi (s.c_str());
-        }
-        file1.close();
 
     const int N_BUTTON=8;
     Button button[N_BUTTON];
@@ -260,6 +251,35 @@ int main()
     button[5] = {180, 80,"Низ", "Низ"};
     button[6] = {350, 80,"Фон", "Фон"};
     button[7] = {530, 80,"Украшения", "Украшения"};
+
+    string stroka_x;
+    string stroka_y;
+    string stroka_address;
+
+    ifstream file ("1.txt");
+
+    while (file.good())
+    {
+        getline(file, stroka_x);
+        if (stroka_x.size() > 1)
+        {
+            getline(file, stroka_y);
+            getline(file, stroka_address);
+
+            for (int i = 0; i < N_variants; i++)
+            {
+                if (stroka_address == center[i].address)
+                {
+                    center[i].x = atoi(stroka_x.c_str());
+                    center[i].y = atoi(stroka_y.c_str());
+                    center[i].visible = true;
+                }
+            }
+
+        }
+    }
+
+
 
 
 
@@ -320,7 +340,7 @@ int main()
                 txMouseY()>= center[i].y && txMouseY()<= center[i].y + center[i].height  &&
                 txMouseButtons()==1 && n_active < 0 &&
 
-                center[i].visible)
+                center[i].visible && center[i].category != "Фон" )
             {
                 n_active = i;
             }
@@ -362,6 +382,12 @@ int main()
 
 
 
+
+
+
+
+
+
         txSleep(10);
         txEnd();
     }
@@ -370,17 +396,17 @@ int main()
 
 
 //сохранение в файл
-    ofstream file("1.txt");
+    ofstream file2("1.txt");
     for (int i = 0; i < N_variants; i++)
     {
-        if (variants[i].visible == true)
+        if (center[i].visible == true)
         {
-            file << variants[i].x << endl;
-            file << variants[i].y << endl;
-            file << variants[i].address << endl;
+            file2 << center[i].x << endl;
+            file2 << center[i].y << endl;
+            file2 << center[i].address << endl;
         }
     }
-    file.close();
+    file2.close();
 
     return 0;
 }
