@@ -4,6 +4,9 @@
 #include <cstdlib>
 #include <cstring>
 using namespace std;
+#include <dirent.h>
+#include <stdio.h>
+
 
 struct variants
 {
@@ -65,6 +68,25 @@ int getHeight(const char* address)
 
 
 
+void readFiles(const char* address)
+{
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir (address)) != NULL) {
+     /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL) {
+            string s = ent->d_name;
+            s = address + s;
+            if(s.find (".bmp") != -1 )
+            {
+                 cout << s << endl;
+            }
+         }
+        closedir (dir);
+     }
+}
+
+
 int main()
 {
     txCreateWindow (900, 780);
@@ -73,6 +95,8 @@ int main()
 
     const int N_variants = 25;
     variants variants[N_variants], center[N_variants];
+
+    readFiles("pictures/Ôîí/");
     variants[0] = {"pictures/Ôîí/Ôîí1.bmp"};
     variants[1] = {"pictures/Ôîí/Ôîí2.bmp"};
     variants[2] = {"pictures/Ôîí/Ôîí3.bmp"};
