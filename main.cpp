@@ -6,6 +6,7 @@
 using namespace std;
 #include <dirent.h>
 #include <stdio.h>
+#include <windows.h>
 
 
 struct variants
@@ -91,12 +92,14 @@ int main()
 {
     txCreateWindow (900, 780);
 
+     txTextCursor (false);
+
     string vybrannaya_category = "";
 
     const int N_variants = 25;
     variants variants[N_variants], center[N_variants];
 
-    readFiles("pictures/Фон/");
+    //readFiles("pictures/Фон/");
     variants[0] = {"pictures/Фон/Фон1.bmp"};
     variants[1] = {"pictures/Фон/Фон2.bmp"};
     variants[2] = {"pictures/Фон/Фон3.bmp"};
@@ -140,10 +143,10 @@ int main()
         variants[i].category = address.substr(pos1 + 1, pos2-pos1-1);
         variants[i].visible = false;
 
-        variants[i].x = 760;
         variants[i].picture = txLoadImage(variants[i].address);
         variants[i].height = getHeight(variants[i].address);
         variants[i].width = getWidth(variants[i].address);
+        variants[i].x = 760;
     }
 
     //Цикл, в котором считаются координаты, ширина, высота
@@ -431,6 +434,7 @@ int main()
         }
     }
     file2.close();
+
 
     return 0;
 }
