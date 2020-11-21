@@ -6,6 +6,7 @@
 using namespace std;
 #include <dirent.h>
 #include <stdio.h>
+#include <windows.h>
 
 
 struct variants
@@ -92,6 +93,8 @@ int readFiles(const char* address, variants* variants, int N_variants)
 int main()
 {
     txCreateWindow (900, 780);
+
+    txTextCursor (false);
 
     string vybrannaya_category = "";
 
@@ -409,6 +412,7 @@ int main()
         }
     }
     file2.close();
+
 
     return 0;
 }
