@@ -10,7 +10,7 @@ using namespace std;
 
 struct variants
 {
-    const char* address;
+    string address;
     string category;
     HDC picture;
     int width;
@@ -68,7 +68,7 @@ int getHeight(const char* address)
 
 
 
-void readFiles(const char* address)
+int readFiles(const char* address, variants* variants, int N_variants)
 {
     DIR *dir;
     struct dirent *ent;
@@ -79,11 +79,13 @@ void readFiles(const char* address)
             s = address + s;
             if(s.find (".bmp") != -1 )
             {
-                 cout << s << endl;
+                 variants[N_variants] = {s};
+                 N_variants = N_variants + 1;
             }
          }
         closedir (dir);
      }
+     return  N_variants;
 }
 
 
@@ -93,41 +95,17 @@ int main()
 
     string vybrannaya_category = "";
 
-    const int N_variants = 25;
-    variants variants[N_variants], center[N_variants];
+    int N_variants = 0;
+    variants variants[1000], center[1000];
 
-    readFiles("pictures/Фон/");
-    variants[0] = {"pictures/Фон/Фон1.bmp"};
-    variants[1] = {"pictures/Фон/Фон2.bmp"};
-    variants[2] = {"pictures/Фон/Фон3.bmp"};
-    variants[3] = {"pictures/Фон/Фон4.bmp"};
+    N_variants = readFiles("pictures/Фон/", variants, N_variants);
+    N_variants = readFiles("pictures/Тело/", variants, N_variants);
+    N_variants = readFiles("pictures/Низ/", variants, N_variants);
+    N_variants = readFiles("pictures/юбки/", variants, N_variants);
+    N_variants = readFiles("pictures/причёски/", variants, N_variants);
+    N_variants = readFiles("pictures/Верх/", variants, N_variants);
+    N_variants = readFiles("pictures/Украшения/", variants, N_variants);
 
-    variants[4] = {"pictures/Тело/тело.bmp"};
-    variants[5] = {"pictures/Тело/тело1.bmp"};
-    variants[6] = {"pictures/Тело/тело2.bmp"};
-
-    variants[7] = {"pictures/Низ/штаны.bmp"};
-    variants[8] = {"pictures/Низ/штаны1.bmp"};
-
-    variants[9] = {"pictures/юбки/1.bmp"};
-    variants[10] = {"pictures/юбки/2.bmp"};
-    variants[11] = {"pictures/юбки/красная.bmp"};
-
-    variants[12] = {"pictures/причёски/1.bmp"};
-    variants[13] = {"pictures/причёски/2.bmp"};
-    variants[14] = {"pictures/причёски/3.bmp"};
-    variants[15] = {"pictures/причёски/4.bmp"};
-    variants[16] = {"pictures/причёски/5.bmp"};
-
-    variants[17] = {"pictures/Верх/f.bmp"};
-    variants[18] = {"pictures/Верх/g.bmp"};
-    variants[19] = {"pictures/Верх/w.bmp"};
-    variants[20] = {"pictures/Верх/green.bmp"};
-    variants[21] = {"pictures/Верх/желтая.bmp"};
-
-    variants[22] = {"pictures/Украшения/цветы1.bmp"};
-    variants[23] = {"pictures/Украшения/цветы2.bmp"};
-    variants[24] = {"pictures/Украшения/цветы3.bmp"};
 
     //Считаем категорию, ширину, высоту
     for (int i = 0; i < N_variants; i = i + 1)
@@ -141,9 +119,9 @@ int main()
         variants[i].visible = false;
 
         variants[i].x = 760;
-        variants[i].picture = txLoadImage(variants[i].address);
-        variants[i].height = getHeight(variants[i].address);
-        variants[i].width = getWidth(variants[i].address);
+        variants[i].picture = txLoadImage(variants[i].address.c_str());
+        variants[i].height = getHeight(variants[i].address.c_str());
+        variants[i].width = getWidth(variants[i].address.c_str());
     }
 
     //Цикл, в котором считаются координаты, ширина, высота
