@@ -121,10 +121,10 @@ int main()
         variants[i].category = address.substr(pos1 + 1, pos2-pos1-1);
         variants[i].visible = false;
 
-        variants[i].x = 760;
         variants[i].picture = txLoadImage(variants[i].address.c_str());
         variants[i].height = getHeight(variants[i].address.c_str());
         variants[i].width = getWidth(variants[i].address.c_str());
+        variants[i].x = 750 + 10 * variants[i].height / variants[i].width;
     }
 
     //÷икл, в котором считаютс€ координаты, ширина, высота
