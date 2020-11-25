@@ -98,6 +98,44 @@ int main()
 
     string vybrannaya_category = "";
 
+    string PAGE = "Редактор";
+
+
+  if (PAGE == "Справка")
+        {
+            txSetFillColor(TX_WHITE);
+            txSetColor(TX_BLACK);
+            txClear();
+            txDrawText(1000, 600, 1200, 700, "Начать!");
+            txDrawText(100, 100, 1200, 500,
+                  "Привет \n"
+                  "Это конструктор человека!!\n"
+                  "Здесь ты можешь сздать образ человека!\n"
+                  "Для того чтобы начать тебе всего лишь зайтии в мейн!!!\n
+                  "У нас есть обширное обширное меню одежды о фона\n"
+                  "Создатели: Плешаков Артём, Полина Никитина и Паша Кичуткин\n"
+
+            );
+
+            if (txMouseButtons() == 1 &&
+                txMouseX() >= 1000 && txMouseY() >= 600 &&
+                txMouseX() <= 1200 && txMouseY() <= 700)
+            {
+                PAGE = "Редактор";
+                txSleep(500);
+            }
+
+        }
+        if (PAGE == "Редактор")
+        {
+            if (Click(buttons[6].x, buttons[6].y))
+            {
+                PAGE = "Справка";
+                txSleep(500);
+            }
+
+
+
     int N_variants = 0;
     variants variants[1000], center[1000];
 
