@@ -31,9 +31,8 @@ struct Button
 
 void drawButton(Button button)
 {
-     //txRectangle           (x, y, x + 200, y + 80);
-        Win32::RoundRect(txDC(), button.x, button.y, button.x + 160, button.y + 40, 10, 10);
-        txDrawText (button.x, button.y, button.x+160, button.y+40, button.text);
+        Win32::RoundRect(txDC(), button.x, button.y, button.x + 130, button.y + 40, 10, 10);
+        txDrawText (button.x, button.y, button.x+ 130, button.y+40, button.text);
 }
 
 bool clickButton(int x, int y)
@@ -110,7 +109,7 @@ int main()
     N_variants = readFiles("pictures/Украшения/", variants, N_variants);
 
 
-    //Считаем категорию, ширину, высоту
+//Считаем категорию, ширину, высоту
     for (int i = 0; i < N_variants; i = i + 1)
     {
         string address = variants[i].address;
@@ -121,13 +120,13 @@ int main()
         variants[i].category = address.substr(pos1 + 1, pos2-pos1-1);
         variants[i].visible = false;
 
+        variants[i].x = 760;
         variants[i].picture = txLoadImage(variants[i].address.c_str());
         variants[i].height = getHeight(variants[i].address.c_str());
         variants[i].width = getWidth(variants[i].address.c_str());
-        variants[i].x = 750 + 10 * variants[i].height / variants[i].width;
     }
 
-    //Цикл, в котором считаются координаты, ширина, высота
+
     int Y_Fone = 50;
     int y_Yubki = 50;
     int y_Niza = 50;
@@ -191,7 +190,7 @@ int main()
 
     int n_active = -1;
 
-
+//где будут находится картинки когда станут видемыми
     for (int i = 0; i < N_variants; i++)
     {
         center[i].category=variants[i].category;
@@ -231,7 +230,7 @@ int main()
             center[i].y = 125;
         }
 
-        if (center[i].category == "Юбки")
+        if (center[i].category == "юбки")
         {
             center[i].x = 140;
             center[i].y = 300;
@@ -245,17 +244,20 @@ int main()
     }
 
 
-
-    const int N_BUTTON=8;
+//кнопки
+    const int N_BUTTON=10;
     Button button[N_BUTTON];
     button[0] = { 10, 20,"Волосы", "причёски"};
-    button[1] = {180, 20,"Тело", "Тело"};
-    button[2] = {350, 20,"Лицо", ""};
-    button[3] = {530, 20,"Юбки ", "юбки"};
-    button[4] = { 10, 80,"Верх", "Верх"};
-    button[5] = {180, 80,"Низ", "Низ"};
-    button[6] = {350, 80,"Фон", "Фон"};
-    button[7] = {530, 80,"Украшения", "Украшения"};
+    button[1] = {150, 20,"Тело", "Тело"};
+    button[2] = {290, 20,"Лицо", ""};
+    button[3] = {430, 20,"Юбки ", "юбки"};
+    button[4] = {570, 20,"Верх", "Верх"};
+    button[5] = { 10, 80,"Низ", "Низ"};
+    button[6] = {150, 80,"Фон", "Фон"};
+    button[7] = {290, 80,"Украшения", "Украшения"};
+
+    button[8] = {430, 80, "Сохранение"};
+    button[9] = {570,80,"Загрузка"};
 
     string stroka_x;
     string stroka_y;
@@ -288,14 +290,12 @@ int main()
 
 
 
-
-    //Само редактирование
+    int scroll_y = 0;
+//Само редактирование
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
         txBegin();
         txClear();
-
-
 
 
         txSetColor(TX_WHITE);
@@ -304,7 +304,27 @@ int main()
 
 
  //панель где выбираеться элемент
-        txRectangle(730,20,890,770);
+        txRectangle(730,20,890,700);
+
+
+
+
+        txRectangle(850,20,890,60);
+
+        if (txMouseX()>= 830 && txMouseX()<= 890&&
+            txMouseY()>= 20 && txMouseY()<= 60&&    txMouseButtons()==1)
+        {
+            scroll_y = scroll_y +10;
+        }
+
+        txRectangle(850,670,890,700);
+        if (txMouseX()>= 850 && txMouseX()<= 890&&
+            txMouseY()>= 660 && txMouseY()<= 700&&    txMouseButtons()==1)
+        {
+            scroll_y = scroll_y -10;
+        }
+
+
 
         for (int i=0;i<N_BUTTON;i= i+1)
         {
@@ -317,7 +337,7 @@ int main()
             drawButton(button[i]);
         }
 
-   //картинки на панели
+//картинки на панели
         for (int i=0;i<N_BUTTON;i= i+1)
             if (clickButton(button[i].x, button[i].y))
             {
@@ -330,9 +350,9 @@ int main()
             if (variants[i].category == vybrannaya_category)
             {
                 if(variants[i].width > variants[i].height)
-                Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100 , 100*variants[i].height/variants[i].width, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
+                    Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y - scroll_y , 100 , 100*variants[i].height/variants[i].width, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
                 else
-                Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y, 100 * variants[i].width/variants[i].height, 100, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
+                    Win32::TransparentBlt  (txDC(), variants[i].x, variants[i].y - scroll_y , 100 * variants[i].width/variants[i].height, 100, variants[i].picture, 0, 0, variants[i].width,variants[i].height,  TX_WHITE);
             }
 
 
@@ -369,8 +389,8 @@ int main()
     //Клик на вариант
         for (int i = 0; i < N_variants; i++)
             if(variants[i].category == vybrannaya_category &&
-               txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + 100 &&
-               txMouseY()>= variants[i].y && txMouseY()<= variants[i].y + 100  &&    txMouseButtons()==1)
+               txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + 100  &&
+               txMouseY()>= variants[i].y - scroll_y && txMouseY()<= variants[i].y + 100 - scroll_y &&    txMouseButtons()==1)
             {
                 //Все хед1 с такой же категорией скрыть
                 for (int k = 0; k < N_variants; k++)
@@ -386,10 +406,13 @@ int main()
                  Win32::TransparentBlt  (txDC(), center[i].x, center[i].y, center[i].width, center[i].height, center[i].picture, 0, 0, center[i].width, center[i].height, TX_WHITE);
 
 
-
-
-
-
+        txRectangle(10,670,100,700);
+        for (int i = 0; i < N_variants; i++)
+        if (txMouseX()>= 10 && txMouseX()<= 670&&
+            txMouseY()>= 100 && txMouseY()<=700&&    txMouseButtons()==1)
+        {
+            center[i].visible = false;
+        }
 
 
 
