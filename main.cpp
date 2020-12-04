@@ -120,15 +120,11 @@ int main()
         variants[i].category = address.substr(pos1 + 1, pos2-pos1-1);
         variants[i].visible = false;
 
-
         variants[i].picture = txLoadImage(variants[i].address.c_str());
         variants[i].height = getHeight(variants[i].address.c_str());
         variants[i].width = getWidth(variants[i].address.c_str());
         variants[i].x = 750 + 10 * variants[i].height / variants[i].width;
-
     }
-
-
 
 
     int Y_Fone = 50;
@@ -194,7 +190,7 @@ int main()
 
     int n_active = -1;
 
-//где будут находится картинки когда станут видемыми
+//где будут находится картинки когда станут видимыми
     for (int i = 0; i < N_variants; i++)
     {
         center[i].category=variants[i].category;
@@ -307,21 +303,22 @@ int main()
 //меню создание персонажа
 
 
- //панель где выбираеться элемент
+//панель где выбираеться элемент
         txRectangle(730,20,890,700);
 
 
 
-
+//листаем вверх и вниз
         txRectangle(850,20,890,60);
-
+        txDrawText (850,20,890,60, "^");
         if (txMouseX()>= 830 && txMouseX()<= 890&&
             txMouseY()>= 20 && txMouseY()<= 60&&    txMouseButtons()==1)
         {
             scroll_y = scroll_y +10;
         }
 
-        txRectangle(850,670,890,700);
+        txRectangle(850,660,890,700);
+        txDrawText (850,660,890,700, "v");
         if (txMouseX()>= 850 && txMouseX()<= 890&&
             txMouseY()>= 660 && txMouseY()<= 700&&    txMouseButtons()==1)
         {
@@ -342,14 +339,17 @@ int main()
         }
 
 //картинки на панели
+
+        //клик на кнопку
         for (int i=0;i<N_BUTTON;i= i+1)
             if (clickButton(button[i].x, button[i].y))
             {
                  vybrannaya_category=button[i].category;
+                 scroll_y = 0;
             }
 
-        //Диалог сохранения файла
-        if (clickButton(button[8].x, button[8].y))
+        //Диалог загрузка файла
+        if (clickButton(button[9].x, button[9].y))
         {
             OPENFILENAME ofn;       // common dialog box structure
             char szFile[260];       // buffer for file name
@@ -363,7 +363,7 @@ int main()
             // use the contents of szFile to initialize itself.
             ofn.lpstrFile[0] = '\0';
             ofn.nMaxFile = sizeof(szFile);
-            ofn.lpstrFilter = "Excel files 2003(*.xls)\0*.xls\0Excel files 2007(*.xlsx)\0*.xlsx\0";
+            ofn.lpstrFilter = "Excel files 2003(*.txt)\0*.txt\0Excel files 2007(*.txt)\0*.txt\0";
             ofn.nFilterIndex = 1;
             ofn.lpstrFileTitle = NULL;
             ofn.nMaxFileTitle = 0;
@@ -374,7 +374,17 @@ int main()
 
             if (GetOpenFileName(&ofn)==TRUE)
             {
-
+                ofstream file2(ofn.lpstrFile);
+                for (int i = 0; i < N_variants; i++)
+                {
+                    if (center[i].visible == true)
+                    {
+                        file2 << center[i].x << endl;
+                        file2 << center[i].y << endl;
+                        file2 << center[i].address << endl;
+                    }
+                }
+                file2.close();
 
             }
         }
@@ -413,10 +423,6 @@ int main()
         }
 
 
-        if (n_active >= 0 && txMouseX() < 10)
-        {
-            center[n_active].visible = false; //(невидемый)
-        }
 
         if(txMouseButtons()==0)
             n_active = -100;
@@ -441,13 +447,6 @@ int main()
                  Win32::TransparentBlt  (txDC(), center[i].x, center[i].y, center[i].width, center[i].height, center[i].picture, 0, 0, center[i].width, center[i].height, TX_WHITE);
 
 
-        txRectangle(10,670,100,700);
-        for (int i = 0; i < N_variants; i++)
-        if (txMouseX()>= 10 && txMouseX()<= 670&&
-            txMouseY()>= 100 && txMouseY()<=700&&    txMouseButtons()==1)
-        {
-            center[i].visible = false;
-        }
 
 
 
