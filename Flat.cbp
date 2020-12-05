@@ -32,9 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="Lib/Bed.cpp" />
-		<Unit filename="Lib/Button.cpp" />
-		<Unit filename="Lib/Files.cpp" />
+		<Unit filename="Button.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
