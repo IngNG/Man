@@ -1,3 +1,4 @@
+///\file main.cpp
 #include "TXLib.h"
 #include "Button.cpp"
 #include <fstream>
@@ -9,20 +10,25 @@ using namespace std;
 #include <stdio.h>
 #include <windows.h>
 
+///Структура "картинка"
 struct variants
 {
     string address;
     string category;
+///загруска "картинок"
     HDC picture;
+/// высчитыванаие "ширины"
     int width;
+/// высчитыванаие "высоты"
     int height;
+
     bool visible;
+///  это " кординаты x и y"
     int x;
     int y;
 };
 
-
-//ищем высоту и ширину картнки
+/// высчитыванаие "ширины"
 int getWidth(const char* address)
 {
     char header[54];
@@ -34,6 +40,7 @@ int getWidth(const char* address)
     return width;
 }
 
+/// высчитыванаие "высоты"
 int getHeight(const char* address)
 {
     char header[54];
@@ -74,6 +81,7 @@ int main()
 
     txTextCursor (false);
 
+    ///Структура "выбранная котегория"
     string vybrannaya_category = "";
 
     int N_variants = 0;
@@ -105,7 +113,7 @@ int main()
         variants[i].x = 750 + 10 * variants[i].height / variants[i].width;
     }
 
-
+    /// это "все котегории"
     int Y_Fone = 50;
     int y_Yubki = 50;
     int y_Niza = 50;
@@ -223,7 +231,7 @@ int main()
     }
 
 
-//кнопки
+///кнопки
     const int N_BUTTON=10;
     Button button[N_BUTTON];
     button[0] = { 10, 20,"Волосы", "причёски"};
@@ -238,13 +246,8 @@ int main()
     button[8] = {430, 80, "Сохранение"};
     button[9] = {570,80,"Загрузка"};
 
-
-
-
-
-
     int scroll_y = 0;
-//Само редактирование
+///Само редактирование
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
         txBegin();
@@ -293,7 +296,7 @@ int main()
 
 //картинки на панели
 
-        //клик на кнопку
+        ///клик на "кнопку"
         for (int i=0;i<N_BUTTON;i= i+1)
             if (clickButton(button[i].x, button[i].y))
             {
@@ -423,7 +426,7 @@ int main()
 
 
 
- //движение картинки
+ ///движение картинки
         for (int i = N_variants - 1; i >= 0; i--)
         {
             if( //картинка видна
@@ -448,7 +451,7 @@ int main()
         if(txMouseButtons()==0)
             n_active = -100;
 
-    //Клик на вариант
+    ///Клик на "вариант"
         for (int i = 0; i < N_variants; i++)
             if(variants[i].category == vybrannaya_category &&
                txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + 100  &&
@@ -474,11 +477,11 @@ int main()
         txSleep(10);
         txEnd();
     }
-    //Их побольше одной:)    УДАЛЙТЕ КАРТИНКИ БЛИН!!!
+
     txDeleteDC(variants[0].picture);
 
 
-//сохранение в файл
+///сохранение в файл
     ofstream file2("1.txt");
     for (int i = 0; i < N_variants; i++)
     {
