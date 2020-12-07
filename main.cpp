@@ -1,5 +1,6 @@
 ///\file main.cpp
 #include "TXLib.h"
+#include "Button.cpp"
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
@@ -26,32 +27,6 @@ struct variants
     int x;
     int y;
 };
-
-///Структура "кнопки"
-struct Button
-{
-///  это " кординаты x и y"
-    int x;
-    int y;
-    const char* text;
-///Структура "котегории"
-    string category;
-};
-
- ///Рисование "кнопки"
-void drawButton(Button button)
-{
-        Win32::RoundRect(txDC(), button.x, button.y, button.x + 130, button.y + 40, 10, 10);
-        txDrawText (button.x, button.y, button.x+ 130, button.y+40, button.text);
-}
-
-///Нажатие "конпки"
-bool clickButton(int x, int y)
-{
-    if (txMouseX()>= x && txMouseX()<= x + 160&&
-        txMouseY()>= y && txMouseY()<= y + 40&&    txMouseButtons()==1)
-    return true;
-}
 
 /// высчитыванаие "ширины"
 int getWidth(const char* address)
@@ -271,38 +246,6 @@ int main()
     button[8] = {430, 80, "Сохранение"};
     button[9] = {570,80,"Загрузка"};
 
-///Структура "stroki x,y"
-    string stroka_x;
-    string stroka_y;
-    string stroka_address;
-
-    ifstream file ("1.txt");
-
-    while (file.good())
-    {
-        getline(file, stroka_x);
-        if (stroka_x.size() > 1)
-        {
-            getline(file, stroka_y);
-            getline(file, stroka_address);
-
-            for (int i = 0; i < N_variants; i++)
-            {
-                if (stroka_address == center[i].address)
-                {
-                    center[i].x = atoi(stroka_x.c_str());
-                    center[i].y = atoi(stroka_y.c_str());
-                    center[i].visible = true;
-                }
-            }
-
-        }
-    }
-
-
-
-
-
     int scroll_y = 0;
 ///Само редактирование
     while(!GetAsyncKeyState(VK_ESCAPE))
@@ -361,8 +304,8 @@ int main()
                  scroll_y = 0;
             }
 
-        ///Диалог "загрузка файла"
-        if (clickButton(button[9].x, button[9].y))
+//Диалог сохранение файла
+        if (clickButton(button[8].x, button[8].y))
         {
             OPENFILENAME ofn;       // common dialog box structure
             char szFile[260];       // buffer for file name
@@ -376,8 +319,8 @@ int main()
             // use the contents of szFile to initialize itself.
             ofn.lpstrFile[0] = '\0';
             ofn.nMaxFile = sizeof(szFile);
-            ofn.lpstrFilter = "Excel files 2003(*.txt)\0*.txt\0Excel files 2007(*.txt)\0*.txt\0";
-            ofn.nFilterIndex = 1;
+            ofn.lpstrFilter = "Текстовые(*.txt)\0*.txt\0";
+            ofn.nFilterIndex = 0;
             ofn.lpstrFileTitle = NULL;
             ofn.nMaxFileTitle = 0;
             ofn.lpstrInitialDir = NULL;
@@ -385,7 +328,7 @@ int main()
 
             // Display the Open dialog box.
 
-            if (GetOpenFileName(&ofn)==TRUE)
+            if (GetSaveFileName(&ofn)==TRUE)
             {
                 ofstream file2(ofn.lpstrFile);
                 for (int i = 0; i < N_variants; i++)
@@ -400,7 +343,75 @@ int main()
                 file2.close();
 
             }
+
         }
+
+
+
+
+
+//  Диалог загрузки файла
+        if (clickButton(button[9].x, button[9].y))
+        {
+            OPENFILENAME ofn;       // common dialog box structure
+            char szFile[260];       // buffer for file name
+
+            // Initialize OPENFILENAME
+            ZeroMemory(&ofn, sizeof(ofn));
+            ofn.lStructSize = sizeof(ofn);
+            ofn.hwndOwner = txWindow();
+            ofn.lpstrFile = szFile;
+            // Set lpstrFile[0] to '\0' so that GetOpenFileName does not
+            // use the contents of szFile to initialize itself.
+            ofn.lpstrFile[0] = '\0';
+            ofn.nMaxFile = sizeof(szFile);
+            ofn.lpstrFilter = "Текстовые(*.txt)\0*.txt\0";
+            ofn.nFilterIndex = 0;
+            ofn.lpstrFileTitle = NULL;
+            ofn.nMaxFileTitle = 0;
+            ofn.lpstrInitialDir = NULL;
+            ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+            // Display the Open dialog box.
+
+            if (GetOpenFileName(&ofn)==TRUE)
+            {
+                for (int i = 0; i < N_variants; i++)
+                {
+                    center[i].visible = false;
+                }
+
+
+                string stroka_x;
+                string stroka_y;
+                string stroka_address;
+
+                ifstream file (ofn.lpstrFile);
+
+                while (file.good())
+                {
+                    getline(file, stroka_x);
+                    if (stroka_x.size() > 0)
+                    {
+                        getline(file, stroka_y);
+                        getline(file, stroka_address);
+
+                        for (int i = 0; i < N_variants; i++)
+                        {
+                            if (stroka_address == center[i].address)
+                            {
+                                center[i].x = atoi(stroka_x.c_str());
+                                center[i].y = atoi(stroka_y.c_str());
+                                center[i].visible = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+
 
 
 
