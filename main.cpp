@@ -59,7 +59,7 @@ int readFiles(const char* address, variants* variants, int N_variants)
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir (address)) != NULL) {
-     /* print all the files and directories within directory */
+     ///* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL) {
             string s = ent->d_name;
             s = address + s;
@@ -96,7 +96,7 @@ int main()
     N_variants = readFiles("pictures/Украшения/", variants, N_variants);
 
 
-//Считаем категорию, ширину, высоту
+///Считаем категорию, ширину, высоту
     for (int i = 0; i < N_variants; i = i + 1)
     {
         string address = variants[i].address;
@@ -177,7 +177,7 @@ int main()
 
     int n_active = -1;
 
-//где будут находится картинки когда станут видимыми
+///где будут находится картинки когда станут видимыми
     for (int i = 0; i < N_variants; i++)
     {
         center[i].category=variants[i].category;
@@ -256,15 +256,15 @@ int main()
 
         txSetColor(TX_WHITE);
         txSetFillColor(TX_BLACK);
-//меню создание персонажа
+///меню создание персонажа
 
 
-//панель где выбираеться элемент
+///панель где выбираеться элемент
         txRectangle(730,20,890,700);
 
 
 
-//листаем вверх и вниз
+///листаем вверх и вниз
         txRectangle(850,20,890,60);
         txDrawText (850,20,890,60, "^");
         if (txMouseX()>= 830 && txMouseX()<= 890&&
@@ -294,7 +294,7 @@ int main()
             drawButton(button[i]);
         }
 
-//картинки на панели
+///картинки на панели
 
         ///клик на "кнопку"
         for (int i=0;i<N_BUTTON;i= i+1)
@@ -304,19 +304,19 @@ int main()
                  scroll_y = 0;
             }
 
-//Диалог сохранение файла
+///Диалог сохранение файла
         if (clickButton(button[8].x, button[8].y))
         {
-            OPENFILENAME ofn;       // common dialog box structure
-            char szFile[260];       // buffer for file name
+            OPENFILENAME ofn;       /// common dialog box structure
+            char szFile[260];       /// buffer for file name
 
-            // Initialize OPENFILENAME
+            /// Initialize OPENFILENAME
             ZeroMemory(&ofn, sizeof(ofn));
             ofn.lStructSize = sizeof(ofn);
             ofn.hwndOwner = txWindow();
             ofn.lpstrFile = szFile;
-            // Set lpstrFile[0] to '\0' so that GetOpenFileName does not
-            // use the contents of szFile to initialize itself.
+            /// Set lpstrFile[0] to '\0' so that GetOpenFileName does not
+            /// use the contents of szFile to initialize itself.
             ofn.lpstrFile[0] = '\0';
             ofn.nMaxFile = sizeof(szFile);
             ofn.lpstrFilter = "Текстовые(*.txt)\0*.txt\0";
@@ -326,7 +326,7 @@ int main()
             ofn.lpstrInitialDir = NULL;
             ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-            // Display the Open dialog box.
+           /// Display the Open dialog box.
 
             if (GetSaveFileName(&ofn)==TRUE)
             {
@@ -350,19 +350,19 @@ int main()
 
 
 
-//  Диалог загрузки файла
+///  Диалог загрузки файла
         if (clickButton(button[9].x, button[9].y))
         {
-            OPENFILENAME ofn;       // common dialog box structure
-            char szFile[260];       // buffer for file name
+            OPENFILENAME ofn;       /// common dialog box structure
+            char szFile[260];       /// buffer for file name
 
-            // Initialize OPENFILENAME
+            /// Initialize OPENFILENAME
             ZeroMemory(&ofn, sizeof(ofn));
             ofn.lStructSize = sizeof(ofn);
             ofn.hwndOwner = txWindow();
             ofn.lpstrFile = szFile;
-            // Set lpstrFile[0] to '\0' so that GetOpenFileName does not
-            // use the contents of szFile to initialize itself.
+            /// Set lpstrFile[0] to '\0' so that GetOpenFileName does not
+            /// use the contents of szFile to initialize itself.
             ofn.lpstrFile[0] = '\0';
             ofn.nMaxFile = sizeof(szFile);
             ofn.lpstrFilter = "Текстовые(*.txt)\0*.txt\0";
@@ -372,7 +372,7 @@ int main()
             ofn.lpstrInitialDir = NULL;
             ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-            // Display the Open dialog box.
+            /// Display the Open dialog box.
 
             if (GetOpenFileName(&ofn)==TRUE)
             {
@@ -429,7 +429,7 @@ int main()
  ///движение картинки
         for (int i = N_variants - 1; i >= 0; i--)
         {
-            if( //картинка видна
+            if( ///картинка видна
                 txMouseX()>= center[i].x && txMouseX()<= center[i].x + center[i].width &&
                 txMouseY()>= center[i].y && txMouseY()<= center[i].y + center[i].height  &&
                 txMouseButtons()==1 && n_active < 0 &&
@@ -457,7 +457,7 @@ int main()
                txMouseX()>= variants[i].x && txMouseX()<= variants[i].x + 100  &&
                txMouseY()>= variants[i].y - scroll_y && txMouseY()<= variants[i].y + 100 - scroll_y &&    txMouseButtons()==1)
             {
-                //Все хед1 с такой же категорией скрыть
+                ///Все хед1 с такой же категорией скрыть
                 for (int k = 0; k < N_variants; k++)
                     if (center[i].category == center[k].category)
                         center[k].visible = false;
