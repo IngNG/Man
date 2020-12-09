@@ -1,78 +1,13 @@
 ///\file main.cpp
 #include "TXLib.h"
 #include "Button.cpp"
-#include <fstream>
-#include <iostream>
+#include "Picture.cpp"
 #include <cstdlib>
 #include <cstring>
 using namespace std;
-#include <dirent.h>
 #include <stdio.h>
 #include <windows.h>
 
-///—труктура "картинка"
-struct variants
-{
-    string address;
-    string category;
-///загруска "картинок"
-    HDC picture;
-/// высчитыванаие "ширины"
-    int width;
-/// высчитыванаие "высоты"
-    int height;
-
-    bool visible;
-///  это " кординаты x и y"
-    int x;
-    int y;
-};
-
-/// высчитыванаие "ширины"
-int getWidth(const char* address)
-{
-    char header[54];
-    ifstream bmp;
-    bmp.open(address, ios::in | ios::binary);
-    bmp.read(header, 54);
-    int width;
-    memcpy(&width, &header[18], sizeof(width));
-    return width;
-}
-
-/// высчитыванаие "высоты"
-int getHeight(const char* address)
-{
-    char header[54];
-    ifstream bmp;
-    bmp.open(address, ios::in | ios::binary);
-    bmp.read(header, 54);
-    int height;
-    memcpy(&height, &header[22], sizeof(height));
-    return height;
-}
-
-
-
-int readFiles(const char* address, variants* variants, int N_variants)
-{
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir (address)) != NULL) {
-     ///* print all the files and directories within directory */
-        while ((ent = readdir (dir)) != NULL) {
-            string s = ent->d_name;
-            s = address + s;
-            if(s.find (".bmp") != -1 )
-            {
-                 variants[N_variants] = {s};
-                 N_variants = N_variants + 1;
-            }
-         }
-        closedir (dir);
-     }
-     return  N_variants;
-}
 
 
 int main()
@@ -81,7 +16,7 @@ int main()
 
     txTextCursor (false);
 
-    ///—труктура "выбранна€ котегори€"
+    //выбранна€ категори€
     string vybrannaya_category = "";
 
     int N_variants = 0;
@@ -96,7 +31,7 @@ int main()
     N_variants = readFiles("pictures/”крашени€/", variants, N_variants);
 
 
-///—читаем категорию, ширину, высоту
+    ///—читаем категорию, ширину, высоту
     for (int i = 0; i < N_variants; i = i + 1)
     {
         string address = variants[i].address;
@@ -478,10 +413,11 @@ int main()
         txEnd();
     }
 
+    ///ƒа удалите вы уже остальные
     txDeleteDC(variants[0].picture);
 
 
-///сохранение в файл
+///сохранение в файл (а оно нужно тут?)
     ofstream file2("1.txt");
     for (int i = 0; i < N_variants; i++)
     {
