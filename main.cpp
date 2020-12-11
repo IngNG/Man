@@ -182,6 +182,8 @@ int main()
     button[9] = {570,80,"Загрузка"};
 
     int scroll_y = 0;
+
+
 ///Само редактирование
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -215,6 +217,11 @@ int main()
         {
             scroll_y = scroll_y -10;
         }
+
+
+
+
+
 
 
 
@@ -263,7 +270,8 @@ int main()
 
            /// Display the Open dialog box.
 
-            if (GetSaveFileName(&ofn)==TRUE)
+            //if (GetSaveFileName(&ofn)==TRUE)
+            ofn.lpstrFile = "3.txt";
             {
                 ofstream file2(ofn.lpstrFile);
                 for (int i = 0; i < N_variants; i++)
@@ -285,7 +293,7 @@ int main()
 
 
 
-///  Диалог загрузки файла
+/// Диалог загрузки файла
         if (clickButton(button[9].x, button[9].y))
         {
             OPENFILENAME ofn;       /// common dialog box structure
@@ -309,7 +317,8 @@ int main()
 
             /// Display the Open dialog box.
 
-            if (GetOpenFileName(&ofn)==TRUE)
+            //if (GetOpenFileName(&ofn)==TRUE)
+            ofn.lpstrFile = "3.txt";
             {
                 for (int i = 0; i < N_variants; i++)
                 {
@@ -343,7 +352,6 @@ int main()
                     }
                 }
             }
-
         }
 
 
@@ -412,24 +420,8 @@ int main()
         txSleep(10);
         txEnd();
     }
-
     ///Да удалите вы уже остальные
-    txDeleteDC(variants[0].picture);
-
-
-///сохранение в файл (а оно нужно тут?)
-    ofstream file2("1.txt");
-    for (int i = 0; i < N_variants; i++)
-    {
-        if (center[i].visible == true)
-        {
-            file2 << center[i].x << endl;
-            file2 << center[i].y << endl;
-            file2 << center[i].address << endl;
-        }
-    }
-    file2.close();
-
-
+     for (int i=0; i < N_variants; i = i + 1)
+         txDeleteDC (variants[i].picture);
     return 0;
 }
