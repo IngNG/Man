@@ -45,6 +45,7 @@ int main()
         variants[i].picture = txLoadImage(variants[i].address.c_str());
         variants[i].height = getHeight(variants[i].address.c_str());
         variants[i].width = getWidth(variants[i].address.c_str());
+        variants[i].width2 = getWidth(variants[i].address.c_str());
         variants[i].x = 750 + 10 * variants[i].height / variants[i].width;
     }
 
@@ -120,6 +121,7 @@ int main()
         center[i].picture=variants[i].picture;
         center[i].address=variants[i].address;
         center[i].width=variants[i].width;
+        center[i].width2=variants[i].width2;
         center[i].visible = false;
 
         if (center[i].category == "Фон")
@@ -183,7 +185,6 @@ int main()
 
     int scroll_y = 0;
 
-
 ///Само редактирование
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -217,9 +218,6 @@ int main()
         {
             scroll_y = scroll_y -10;
         }
-
-
-
 
 
 
@@ -411,10 +409,29 @@ int main()
 
         for (int i = 0; i < N_variants; i++)
             if (center[i].visible)
-                 Win32::TransparentBlt  (txDC(), center[i].x, center[i].y, center[i].width, center[i].height, center[i].picture, 0, 0, center[i].width, center[i].height, TX_WHITE);
+                 Win32::TransparentBlt  (txDC(), center[i].x, center[i].y, center[i].width2, center[i].height, center[i].picture, 0, 0, center[i].width, center[i].height, TX_WHITE);
 
 
+///расширение и уменьшение тела
+        for (int i = 0; i < N_variants; i++)
+        {
+                txRectangle(10,660,50,700);
+                txDrawText (10,660,50,700, "-");
+                if (txMouseX()>= 10 && txMouseX()<= 50&&
+                    txMouseY()>= 650 && txMouseY()<= 700&&    txMouseButtons()==1 && center[i].category != "Фон")
+                {
+                    center[n_active].width2 = center[n_active].width2 * 0.99;
+                }
 
+                txRectangle(50,660,90,700);
+                txDrawText (50,660,90,700, "+");
+                if (txMouseX()>= 50 && txMouseX()<= 100&&
+                    txMouseY()>= 650&& txMouseY()<= 700&&    txMouseButtons()==1 && center[i].category != "Фон")
+                {
+                    center[i].width2 = center[i].width2 * 1.01;
+                }
+
+        }
 
 
         txSleep(10);

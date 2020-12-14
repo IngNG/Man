@@ -13,6 +13,7 @@ struct variants
     HDC picture;
     /// Ширина картинки
     int width;
+    int width2;
     /// Высота картинки
     int height;
 
