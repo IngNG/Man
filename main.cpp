@@ -319,10 +319,10 @@ int main()
                 "Создатели: Полина Никитина,Плешаков Артём и Паша Кечуткин\n"
             );
 
-            txDrawText(1000, 600, 1200, 700, "Начать!");
+            txDrawText(800, 600, 900, 700, "Начать!");
             if (txMouseButtons() == 1 &&
-                txMouseX() >= 1000 && txMouseY() >= 600 &&
-                txMouseX() <= 1200 && txMouseY() <= 700)
+                txMouseX() >= 800 && txMouseY() >= 600 &&
+                txMouseX() <= 900 && txMouseY() <= 700)
             {
                 PAGE = "Редактор";
                 txSleep(500);
@@ -411,10 +411,9 @@ int main()
                 ofn.lpstrInitialDir = NULL;
                 ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-               /// Display the Open dialog box.
+                /// Display the Open dialog box.
 
-                //if (GetSaveFileName(&ofn)==TRUE)
-                ofn.lpstrFile = "3.txt";
+                if (GetSaveFileName(&ofn)==TRUE)
                 {
                     ofstream file2(ofn.lpstrFile);
                     for (int i = 0; i < N_variants; i++)
@@ -424,6 +423,7 @@ int main()
                             file2 << center[i].x << endl;
                             file2 << center[i].y << endl;
                             file2 << center[i].address << endl;
+                            file2 << center[i].width2 << endl;
                         }
                     }
                     file2.close();
@@ -460,8 +460,7 @@ int main()
 
                 /// Display the Open dialog box.
 
-                //if (GetOpenFileName(&ofn)==TRUE)
-                ofn.lpstrFile = "3.txt";
+                if (GetOpenFileName(&ofn)==TRUE)
                 {
                     for (int i = 0; i < N_variants; i++)
                     {
@@ -472,7 +471,7 @@ int main()
                     string stroka_x;
                     string stroka_y;
                     string stroka_address;
-
+                    string width2;
                     ifstream file (ofn.lpstrFile);
 
                     while (file.good())
@@ -490,6 +489,7 @@ int main()
                                     center[i].x = atoi(stroka_x.c_str());
                                     center[i].y = atoi(stroka_y.c_str());
                                     center[i].visible = true;
+                                    center[i].width2 = atoi(stroka_x.c_str());
                                 }
                             }
                         }
@@ -565,7 +565,7 @@ int main()
                 if (txMouseX()>= 10 && txMouseX()<= 50&&
                     txMouseY()>= 650 && txMouseY()<= 700&&    txMouseButtons()==1 && center[i].category != "Фон")
                 {
-                    center[n_active].width2 = center[n_active].width2 * 0.99;
+                    center[i].width2 = center[i].width2 * 0.99;
                 }
 
                 txRectangle(50,660,90,700);
