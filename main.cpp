@@ -243,38 +243,38 @@ int main()
 
         if (center[i].category == "Тело")
         {
-            center[i].x = 111;
-            center[i].y = 120;
+            center[i].x = 110;
+            center[i].y = 130;
         }
 
         if (center[i].category == "Верх")
         {
-            center[i].x = 85;
-            center[i].y = 290;
+            center[i].x = 72;
+            center[i].y = 248;
         }
 
         if (center[i].category == "Низ")
         {
-            center[i].x = 111;
-            center[i].y = 300;
+            center[i].x = 115;
+            center[i].y = 372;
         }
 
         if (center[i].category == "причёски")
         {
-            center[i].x = 111;
+            center[i].x = 119;
             center[i].y = 125;
         }
 
         if (center[i].category == "юбки")
         {
-            center[i].x = 140;
-            center[i].y = 300;
+            center[i].x = 102;
+            center[i].y = 342;
         }
 
         if (center[i].category == "Украшения")
         {
-            center[i].x = 150;
-            center[i].y = 320;
+            center[i].x = 119;
+            center[i].y = 125;
         }
     }
 
@@ -580,7 +580,7 @@ int main()
 
             if (GetAsyncKeyState(VK_SNAPSHOT))
             {
-                ScreenCapture(0, 150, 700, 700, "screen.bmp", txWindow());
+                ScreenCapture(0, 70, 700, 690, "screen.bmp", txWindow());
                 txMessageBox ("Сохранено");
             }
         }
